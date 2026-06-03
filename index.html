@@ -329,6 +329,7 @@
       <button class="dest-tab" onclick="selectCountry('georgia',this)">🇬🇪 Грузия</button>
       <button class="dest-tab" onclick="selectCountry('spain',this)">🇪🇸 Испания</button>
       <button class="dest-tab" onclick="selectCountry('uae',this)">🇦🇪 ОАЭ</button>
+      <button class="dest-tab" onclick="selectCountry('vietnam',this)">🇻🇳 Вьетнам</button>
     </div>
 
     <!-- TURKEY regions -->
@@ -398,6 +399,19 @@
         <button class="region-pill" onclick="selectRegion('madrid',this,'spain')">🎨 Мадрид</button>
       </div>
     </div>
+    <div id="region-vietnam" class="region-bar">
+      <h4>📍 Курорт / регион:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('danang',this,'vietnam')">🏖️ Дананг</button>
+        <button class="region-pill" onclick="selectRegion('hoian',this,'vietnam')">🏮 Хойан</button>
+        <button class="region-pill" onclick="selectRegion('nhatrang',this,'vietnam')">🌊 Нячанг</button>
+        <button class="region-pill" onclick="selectRegion('phuquoc',this,'vietnam')">🌴 Фукуок</button>
+        <button class="region-pill" onclick="selectRegion('hanoi',this,'vietnam')">🏛️ Ханой</button>
+        <button class="region-pill" onclick="selectRegion('hcmc',this,'vietnam')">🌆 Хошимин</button>
+        <button class="region-pill" onclick="selectRegion('halong',this,'vietnam')">⛵ Халонг</button>
+        <button class="region-pill" onclick="selectRegion('muine',this,'vietnam')">🏜️ Муйне</button>
+      </div>
+    </div>
     <div id="region-uae" class="region-bar">
       <h4>📍 Эмират:</h4>
       <div class="region-pills">
@@ -444,6 +458,7 @@
       <button class="tour-filter-btn" onclick="filterTours('uae',this)">🇦🇪 ОАЭ</button>
       <button class="tour-filter-btn" onclick="filterTours('bali',this)">🇮🇩 Бали</button>
       <button class="tour-filter-btn" onclick="filterTours('georgia',this)">🇬🇪 Грузия</button>
+      <button class="tour-filter-btn" onclick="filterTours('vietnam',this)">🇻🇳 Вьетнам</button>
     </div>
 
     <div class="tours-grid" id="tours-grid">
@@ -473,6 +488,8 @@
           <tr><td>Join UP! — Premium</td><td class="check">✓</td><td class="check">✓</td><td class="check">5★</td><td class="check">Ultra AI</td><td class="check">✓</td><td class="check">✓</td><td class="check">2 экскурсии</td></tr>
           <tr><td>Anex Tour — Standard</td><td class="check">✓</td><td class="check">✓</td><td class="check">4★</td><td class="check">AI</td><td class="check">✓</td><td class="cross">доп.</td><td class="cross">—</td></tr>
           <tr><td>Biblio Globus</td><td class="check">✓</td><td class="cross">доп.</td><td class="check">4★</td><td class="check">HB</td><td class="check">✓</td><td class="check">✓</td><td class="check">3 экскурсии</td></tr>
+          <tr><td>Pegas — Вьетнам Premium</td><td class="check">✓</td><td class="check">✓</td><td class="check">5★</td><td class="check">BB+</td><td class="check">✓</td><td class="check">e-Visa</td><td class="check">2 экскурсии</td></tr>
+          <tr><td>Coral — Вьетнам AI</td><td class="check">✓</td><td class="check">✓</td><td class="check">4★</td><td class="check">AI</td><td class="check">✓</td><td class="check">e-Visa</td><td class="check">Острова</td></tr>
         </tbody>
       </table>
     </div>
@@ -959,6 +976,24 @@ const destinations = {
     madrid: { emoji:'🎨', name:'Мадрид', desc:'Прадо · Флорентийская кухня · Реал', price:'от 170 000 ₸/чел', color:'#6A1B9A',
       info:'<h3>🎨 Мадрид (MAD)</h3><p style="margin:8px 0;color:#666">Музей Прадо и Рейна-Софии, стадион Бернабеу, рынок Сан-Мигель, тапас-бары. Летом очень жарко — лучше выезжать к морю.</p>' },
   },
+  vietnam: {
+    danang:  { emoji:'🏖️', name:'Дананг',   desc:'Пляж Мой Кхе · горы Бана Хиллс · мраморные горы', price:'от 110 000 ₸/чел', color:'#E53935',
+      info:'<h3>🏖️ Дананг (DAD)</h3><p style="margin:8px 0;color:#666">Третий город Вьетнама с великолепным пляжем Мой Кхе (топ-6 пляжей мира по Forbes), горным курортом Бана Хиллс с Золотым мостом и близостью к Хойану (30 мин).</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–33°C, море +28°C (сезон дождей, но купаться можно)</li><li>✈️ Лёт: ~9–11 ч через Сингапур/КЛ</li><li>💰 Тур от ~950 000 ₸ на 2 чел</li><li>🏨 InterContinental Danang, Furama, Pullman</li><li>🛂 Электронная e-Visa $25 или безвизовый въезд 45 дней (РК)</li></ul>' },
+    hoian:   { emoji:'🏮', name:'Хойан',    desc:'Старый город UNESCO · фонарики · шёлк', price:'от 115 000 ₸/чел', color:'#FF8F00',
+      info:'<h3>🏮 Хойан (DAD → 30 км)</h3><p style="margin:8px 0;color:#666">Объект ЮНЕСКО. Волшебный старый город с жёлтыми домами, красными фонариками, рисовыми полями и лучшей едой Вьетнама — cao lau, баньми. Пошив одежды за 1 день.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–32°C</li><li>🏮 Ночной рынок, лодки с фонарями каждую пятницу</li><li>💰 Тур от ~1 000 000 ₸ на 2 чел</li><li>🍜 Гастрономический рай</li></ul>' },
+    nhatrang:{ emoji:'🌊', name:'Нячанг',   desc:'Острова · дайвинг · аквапарк Vinpearl', price:'от 100 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🌊 Нячанг (CXR)</h3><p style="margin:8px 0;color:#666">Главный пляжный курорт Вьетнама. 6 км городского пляжа, острова с коралловыми рифами, аквапарк Vinpearl Land на острове, грязевые ванны.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–33°C, море +28°C</li><li>✈️ Лёт: ~10–12 ч через Куала-Лумпур</li><li>💰 Тур от ~900 000 ₸ на 2 чел</li><li>🤿 Дайвинг и снорклинг у островов</li></ul>' },
+    phuquoc: { emoji:'🌴', name:'Фукуок',   desc:'Тропический остров · белый песок · жемчуг', price:'от 120 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>🌴 Фукуок (PQC)</h3><p style="margin:8px 0;color:#666">«Жемчужный остров» в Сиамском заливе. Белоснежные пляжи Лонг Бич и Бай Дай, рынок морепродуктов, плантации перца и жемчуга. Безвизовый въезд 30 дней без e-Visa.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +27–31°C, море +29°C</li><li>✈️ Лёт: ~10–13 ч через Куала-Лумпур/Хошимин</li><li>💰 Тур от ~1 050 000 ₸ на 2 чел</li><li>🏨 InterContinental Phu Quoc, JW Marriott, Premier Village</li></ul>' },
+    hanoi:   { emoji:'🏛️', name:'Ханой',    desc:'Столица · озеро Хоан Кием · уличная еда', price:'от 95 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🏛️ Ханой (HAN)</h3><p style="margin:8px 0;color:#666">Столица с тысячелетней историей. Старый квартал 36 улиц, мавзолей Хо Ши Мина, озеро Хоан Кием, пиво Bia Hoi прямо на улице. Ворота для круиза по Халонгу.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–33°C, дождливый сезон</li><li>✈️ Лёт: ~9–11 ч через Сингапур/КЛ</li><li>💰 Тур от ~850 000 ₸ на 2 чел</li></ul>' },
+    hcmc:    { emoji:'🌆', name:'Хошимин',  desc:'Сайгон · небоскрёбы · война и история', price:'от 100 000 ₸/чел', color:'#1565C0',
+      info:'<h3>🌆 Хошимин / Сайгон (SGN)</h3><p style="margin:8px 0;color:#666">Самый динамичный город Вьетнама. Тоннели Ку Чи, Президентский дворец, ночной рынок Бен Тхань, скутеры и уличный фо на каждом углу.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +27–32°C</li><li>✈️ Лёт: ~10–12 ч через Сингапур/КЛ</li><li>💰 Тур от ~900 000 ₸ на 2 чел</li></ul>' },
+    halong:  { emoji:'⛵', name:'Залив Халонг', desc:'ЮНЕСКО · круиз · 1969 островов', price:'от 130 000 ₸/чел', color:'#00838F',
+      info:'<h3>⛵ Залив Халонг (UNESCO)</h3><p style="margin:8px 0;color:#666">Одно из 7 природных чудес света. Тысячи известняковых скал из воды, каяки в пещерах, ночные круизы на джонке. Обычно комбинируют с Ханоем.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +28–31°C</li><li>⛵ 2-дневный круиз: от ~$150/чел</li><li>💰 Тур Ханой+Халонг от ~1 100 000 ₸ на 2 чел</li></ul>' },
+    muine:   { emoji:'🏜️', name:'Муйне',    desc:'Красные дюны · кайтсёрфинг · рыбаки', price:'от 90 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🏜️ Муйне</h3><p style="margin:8px 0;color:#666">Уникальный курорт с красными и белыми песчаными дюнами, рыбацкой деревней и мировой столицей кайтсёрфинга. Сухой сезон круглый год — один из немногих курортов без дождей в июле.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +27–33°C ☀️ СУХОЙ СЕЗОН</li><li>🪁 Кайтсёрфинг: лучшее место Вьетнама</li><li>💰 Тур от ~850 000 ₸ на 2 чел</li></ul>' },
+  },
   uae: {
     dubai: { emoji:'🏙️', name:'Дубай', desc:'Бурдж-Халифа · шопинг · пляжи', price:'от 120 000 ₸/чел', color:'#FF6F00',
       info:'<h3>🏙️ Дубай (DXB)</h3><p style="margin:8px 0;color:#666">Бурдж-Халифа, Пальм Джумейра, Atlantis, Dubai Mall, пляж JBR. В июле +40°C, но в ТЦ и отелях отличный кондиционер.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +38–42°C, море +31°C</li><li>✈️ Лёт: ~5–6 ч (прямой или 1 стыковка)</li><li>💰 Тур от ~1 000 000 ₸ на 2 чел</li><li>🛂 Виза не нужна (30 дней)</li></ul>' },
@@ -1105,6 +1140,78 @@ const tours = [
     ],
     oldPrice:'1 900 000 ₸', newPrice:'1 650 000 ₸', per:'на 2 чел / 7 ночей',
     link:'https://tui.kz'
+  },
+  {
+    country:'vietnam', region:'Дананг + Хойан', tag:'🌟 MUST SEE', tagClass:'green',
+    emoji:'🏮', color:'linear-gradient(135deg,#E53935,#FF7043)',
+    operator:'Pegas Touristik', title:'Вьетнам — Дананг + Хойан 5★',
+    sub:'Дананг · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 5★','🍽️ BB','🏥 Страховка','🛂 e-Visa','🏯 Экскурсия Хойан'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→DAD через Куала-Лумпур (AirAsia/MAS) + обратно'},
+      {i:'🏨', t:'InterContinental Danang Sun Peninsula 5★ — 7 ночей'},
+      {i:'🍽️', t:'Завтрак включён (BB), ужины в ресторанах отеля'},
+      {i:'🚖', t:'Трансфер аэропорт Дананг ↔ отель + Хойан'},
+      {i:'🏮', t:'Экскурсия в Хойан (старый город UNESCO) включена'},
+      {i:'🏔️', t:'Посещение Бана Хиллс и Золотого моста'},
+      {i:'🛂', t:'Оформление e-Visa $25 включено'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 350 000 ₸', newPrice:'1 090 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://pegas.kz'
+  },
+  {
+    country:'vietnam', region:'Нячанг', tag:'🌊 ПЛЯЖ+ОСТРОВА', tagClass:'',
+    emoji:'🌊', color:'linear-gradient(135deg,#0097A7,#26C6DA)',
+    operator:'Coral Travel', title:'Вьетнам — Нячанг 4★ AI',
+    sub:'Нячанг · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 4★','🍽️ AI','🏥 Страховка','🎡 Vinpearl','🤿 Острова'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→CXR через Куала-Лумпур/Хошимин + обратно'},
+      {i:'🏨', t:'Vinpearl Resort & Spa Nha Trang Bay 4★ — 7 ночей'},
+      {i:'🍽️', t:'All Inclusive: 3 питания + бар'},
+      {i:'🎡', t:'Vinpearl Land (аквапарк + парк развлечений) включён'},
+      {i:'🤿', t:'Тур на острова со снорклингом включён'},
+      {i:'🧖', t:'Грязевые ванны I-Resort со скидкой'},
+      {i:'🏥', t:'Страховка ВЗР €30 000'},
+    ],
+    oldPrice:'1 150 000 ₸', newPrice:'940 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://coral.kz'
+  },
+  {
+    country:'vietnam', region:'Фукуок', tag:'💎 ЖЕМЧУЖНЫЙ ОСТРОВ', tagClass:'purple',
+    emoji:'🌴', color:'linear-gradient(135deg,#2E7D32,#66BB6A)',
+    operator:'TUI Kazakhstan', title:'Вьетнам — Фукуок 5★ Resort',
+    sub:'Фукуок · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Вилла 5★','🍽️ BB+','🏥 Страховка','🤿 Снорклинг','🛂 Безвизовый'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→PQC через Куала-Лумпур/Хошимин + обратно'},
+      {i:'🏨', t:'JW Marriott Phu Quoc Emerald Bay 5★ — 7 ночей'},
+      {i:'🍽️', t:'Завтрак + ужины (BB+)'},
+      {i:'🤿', t:'Тур на Южные острова со снорклингом включён'},
+      {i:'🛶', t:'Морской каяк и SUP-борды включены'},
+      {i:'🛂', t:'Безвизовый въезд на Фукуок до 30 дней'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 550 000 ₸', newPrice:'1 280 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://tui.kz'
+  },
+  {
+    country:'vietnam', region:'Ханой + Залив Халонг', tag:'🏆 ЮНЕСКО', tagClass:'green',
+    emoji:'⛵', color:'linear-gradient(135deg,#00838F,#4DB6AC)',
+    operator:'Join UP!', title:'Вьетнам — Ханой + Круиз Халонг',
+    sub:'3 н Ханой + 2 н круиз + 2 н Дананг',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отели 4★','🍽️ FB на яхте','🏥 Страховка','⛵ Джонка Халонг','🏛️ Экскурсии'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→HAN, обратно DAD→ALA (открытый маршрут)'},
+      {i:'🏛️', t:'3 ночи Ханой: Mövenpick Hotel 4★'},
+      {i:'⛵', t:'2-ночной круиз по Халонгу на 5★ джонке (FB+open bar)'},
+      {i:'🏖️', t:'2 ночи Дананг: Marriott 5★ + Золотой мост'},
+      {i:'🏯', t:'Экскурсии: мавзолей, тоннели Ку Чи, Хойан, каяки'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 700 000 ₸', newPrice:'1 420 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://joinup.com'
   },
   {
     country:'georgia', region:'Тбилиси + Батуми', tag:'✈️ БЛИЗКО', tagClass:'green',
