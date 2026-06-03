@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Планировщик отпуска | Из Алматы · Июль 2026</title>
+  <title>Планировщик отпуска | Из Алматы</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
@@ -30,6 +30,64 @@
       border:1px solid rgba(255,255,255,.35);border-radius:50px;
       padding:7px 18px;font-size:.9rem;font-weight:600
     }
+
+    /* ══ MONTH SELECTOR ══ */
+    .month-picker{
+      background:rgba(255,255,255,.15);backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.3);border-radius:20px;
+      padding:22px 28px;margin:28px auto 0;max-width:700px;
+    }
+    .month-picker-label{font-size:.85rem;font-weight:600;opacity:.85;margin-bottom:12px;text-align:left}
+    .month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+    .month-btn{
+      padding:8px 4px;border-radius:10px;border:1.5px solid rgba(255,255,255,.3);
+      background:rgba(255,255,255,.12);color:#fff;cursor:pointer;
+      font-size:.82rem;font-weight:600;transition:all .18s;text-align:center;
+      position:relative;
+    }
+    .month-btn:hover{background:rgba(255,255,255,.28)}
+    .month-btn.active{background:#fff;color:var(--teal);border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+    .month-btn .season-dot{
+      width:6px;height:6px;border-radius:50%;
+      margin:3px auto 0;
+    }
+    .season-peak   .season-dot{background:#FF6F00}
+    .season-high   .season-dot{background:#FFD600}
+    .season-low    .season-dot{background:#66BB6A}
+    .month-btn.active .season-dot{opacity:.7}
+    .season-legend{display:flex;gap:16px;margin-top:12px;justify-content:center;font-size:.75rem;opacity:.85}
+    .sl-item{display:flex;align-items:center;gap:5px}
+    .sl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+    /* ══ SEASON BANNER ══ */
+    .season-banner{
+      border-radius:14px;padding:14px 20px;margin-bottom:24px;
+      display:flex;align-items:center;gap:14px;font-size:.92rem;
+    }
+    .season-banner.peak  {background:#fff3e0;border-left:4px solid #FF6F00}
+    .season-banner.high  {background:#fffde7;border-left:4px solid #FFD600}
+    .season-banner.low   {background:#e8f5e9;border-left:4px solid #43A047}
+    .season-banner .sb-icon{font-size:1.8rem}
+    .season-banner strong{display:block;font-size:1rem;margin-bottom:2px}
+
+    /* ══ WEATHER MONTH CARD ══ */
+    .weather-month{
+      background:#fff;border-radius:16px;box-shadow:var(--shadow);
+      padding:22px 24px;margin-bottom:28px
+    }
+    .weather-month h4{font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--dark)}
+    .wm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px}
+    .wm-item{text-align:center;background:#f9f9f9;border-radius:10px;padding:12px 8px}
+    .wm-icon{font-size:1.6rem}
+    .wm-label{font-size:.72rem;color:#888;margin-top:3px}
+    .wm-val{font-size:.98rem;font-weight:700;color:var(--dark);margin-top:2px}
+    .wm-season-badge{
+      display:inline-block;border-radius:6px;padding:3px 12px;
+      font-size:.78rem;font-weight:700;margin-top:10px
+    }
+    .wm-season-badge.peak  {background:#fff3e0;color:#FF6F00}
+    .wm-season-badge.high  {background:#fffde7;color:#F57F17}
+    .wm-season-badge.low   {background:#e8f5e9;color:#2E7D32}
 
     /* ══ DESTINATION SELECTOR ══ */
     .dest-section{padding:50px 0 30px}
@@ -291,9 +349,19 @@
   <p>Выберите направление · Июль 2026 · 2 человека</p>
   <div class="hero-badges">
     <span class="badge">✈️ Вылет из Алматы (ALA)</span>
-    <span class="badge">📅 Июль 2026</span>
+    <span class="badge" id="hero-month-badge">📅 Июль 2026</span>
     <span class="badge">👫 2 человека</span>
     <span class="badge">🏖️ 7 ночей</span>
+  </div>
+
+  <div class="month-picker">
+    <div class="month-picker-label">📅 Выберите месяц поездки:</div>
+    <div class="month-grid" id="month-grid"></div>
+    <div class="season-legend">
+      <div class="sl-item"><div class="sl-dot" style="background:#FF6F00"></div> Высокий сезон</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#FFD600"></div> Средний сезон</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#66BB6A"></div> Низкий сезон</div>
+    </div>
   </div>
 </div>
 
@@ -318,6 +386,7 @@
   <div class="container">
     <h2>🌍 Выберите направление</h2>
     <p class="dest-subtitle">Нажмите на страну, затем выберите курорт или регион</p>
+    <div id="season-banner-box"></div>
 
     <!-- Country tabs -->
     <div class="dest-tabs">
@@ -426,8 +495,11 @@
       <!-- Filled by JS -->
     </div>
 
+    <!-- Weather by month panel -->
+    <div id="weather-month-panel" style="margin-top:24px"></div>
+
     <!-- Info panel -->
-    <div id="dest-info" style="margin-top:28px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:26px 28px;display:none">
+    <div id="dest-info" style="margin-top:20px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:26px 28px;display:none">
       <div id="dest-info-content"></div>
     </div>
 
@@ -1363,6 +1435,245 @@ function loadChecklist() {
   updateProgress();
 }
 document.querySelectorAll('.cl-item input[type=checkbox]').forEach(cb => cb.addEventListener('change', updateProgress));
+
+// ── MONTH DATA ───────────────────────────────────
+const MONTHS = [
+  {n:'Янв',full:'Январь',m:0},{n:'Фев',full:'Февраль',m:1},{n:'Мар',full:'Март',m:2},
+  {n:'Апр',full:'Апрель',m:3},{n:'Май',full:'Май',m:4},{n:'Июн',full:'Июнь',m:5},
+  {n:'Июл',full:'Июль',m:6},{n:'Авг',full:'Август',m:7},{n:'Сен',full:'Сентябрь',m:8},
+  {n:'Окт',full:'Октябрь',m:9},{n:'Ноя',full:'Ноябрь',m:10},{n:'Дек',full:'Декабрь',m:11}
+];
+
+// season per country/month: 'peak'|'high'|'low'
+// price multiplier vs base
+const countrySeasons = {
+  turkey:   ['low','low','low','high','high','peak','peak','peak','high','high','low','low'],
+  maldives: ['peak','peak','peak','high','low','low','low','low','high','peak','peak','peak'],
+  thailand: ['peak','peak','high','high','low','low','low','low','low','high','high','peak'],
+  egypt:    ['low','low','high','high','peak','peak','peak','peak','high','high','low','low'],
+  bali:     ['low','low','low','high','peak','peak','peak','peak','high','high','low','low'],
+  georgia:  ['low','low','low','high','high','peak','peak','peak','high','high','low','low'],
+  spain:    ['low','low','low','high','high','peak','peak','peak','high','high','low','low'],
+  uae:      ['high','high','high','peak','peak','low','low','low','high','peak','high','high'],
+  vietnam:  ['peak','peak','high','high','low','low','low','low','high','peak','peak','peak'],
+};
+const priceK = {peak:1.35, high:1.0, low:0.72};
+const seasonLabel = {peak:'🔴 Высокий сезон', high:'🟡 Средний сезон', low:'🟢 Низкий сезон'};
+const seasonTip = {
+  peak:'Пиковый сезон — максимальный спрос. Цены выше на 30–40%, бронировать нужно за 3–4 месяца.',
+  high:'Хороший сезон для отдыха. Цены стандартные, погода комфортная.',
+  low:'Низкий сезон — скидки 25–35%. Меньше туристов, возможны дожди.'
+};
+
+// Weather data per country per month [airTemp, seaTemp, sunHours, rainDays, description]
+const weatherData = {
+  turkey:{
+    0:['8–12°C','16°C','4 ч','12 д','Зима, дожди, снег в горах. Стамбул — интересно, пляж — не сезон'],
+    1:['9–13°C','15°C','5 ч','10 д','Конец зимы. Хорошо для Стамбула и экскурсий, не для пляжа'],
+    2:['12–17°C','16°C','6 ч','9 д','Весна начинается. Цветение, Каппадокия отлично'],
+    3:['16–22°C','18°C','8 ч','7 д','Тёплая весна. Хойан, Стамбул, экскурсии — отлично'],
+    4:['21–27°C','21°C','10 ч','5 д','Море прогревается. Белек, Анталья — уже хорошо'],
+    5:['26–32°C','25°C','12 ч','3 д','Начало пляжного сезона. Жарко и солнечно'],
+    6:['30–38°C','28°C','13 ч','1 д','Пик сезона. Максимальная жара, море +28°C, отличный пляж'],
+    7:['30–37°C','28°C','13 ч','1 д','Жаркий август, аналогичен июлю. Самый высокий спрос'],
+    8:['26–32°C','27°C','11 ч','3 д','Бархатный сезон. Чуть прохладнее, море тёплое, меньше туристов'],
+    9:['20–26°C','24°C','8 ч','6 д','Осень, море ещё тёплое. Отличное время без жары'],
+    10:['14–19°C','20°C','6 ч','9 д','Прохладно. Стамбул, Каппадокия хороши, пляж заканчивается'],
+    11:['10–14°C','17°C','4 ч','11 д','Зима, дожди. Экскурсионные туры в Стамбул/Каппадокию'],
+  },
+  maldives:{
+    0:['28–31°C','29°C','9 ч','4 д','Сухой сезон — лучшее время! Прозрачная вода, солнце'],
+    1:['28–31°C','29°C','9 ч','3 д','Отличный месяц — пик туристического сезона'],
+    2:['29–32°C','29°C','9 ч','4 д','Последний месяц сухого сезона. Жарко и красиво'],
+    3:['29–32°C','29°C','8 ч','7 д','Переходный период. Хорошая погода, меньше туристов'],
+    4:['28–31°C','29°C','7 ч','13 д','Начало сезона дождей, но волны и скаты-манта'],
+    5:['27–30°C','29°C','6 ч','16 д','Дождливый сезон. Скидки до 40%, китовые акулы'],
+    6:['27–30°C','28°C','6 ч','16 д','Сезон дождей. Самые низкие цены, мало туристов'],
+    7:['27–30°C','28°C','7 ч','14 д','Дожди, но тепло. Лучшие скидки года — до 45%'],
+    8:['28–30°C','28°C','7 ч','13 д','Переходный период. Улучшение погоды к концу месяца'],
+    9:['28–31°C','29°C','8 ч','9 д','Начало улучшения. Волны для сёрфинга, дельфины'],
+    10:['28–31°C','29°C','9 ч','5 д','Почти сухой сезон. Хорошая видимость под водой'],
+    11:['28–31°C','29°C','9 ч','4 д','Лучший период начинается. Тихий океан, пляж'],
+  },
+  thailand:{
+    0:['26–34°C','28°C','9 ч','2 д','Лучший месяц! Сухой сезон, мало дождей, солнечно'],
+    1:['27–35°C','28°C','9 ч','2 д','Пик туристического сезона, отличная погода'],
+    2:['28–36°C','29°C','9 ч','3 д','Жарко и сухо. Отличный пляж, краски Азии'],
+    3:['29–38°C','29°C','8 ч','5 д','Самый жаркий месяц +38°C. Сонгкран (Новый год)'],
+    4:['28–35°C','29°C','7 ч','9 д','Начало сезона дождей на Пхукете. Самуи ещё хорош'],
+    5:['27–33°C','29°C','6 ч','17 д','Сезон дождей Пхукет. Краби, Самуи ещё подходят'],
+    6:['26–32°C','29°C','5 ч','18 д','Дождливый сезон на западе, но восток (Самуи, Ко Тао) хорош'],
+    7:['26–32°C','29°C','5 ч','17 д','Аналогично июню. Паттайя и Самуи подходят'],
+    8:['26–32°C','29°C','5 ч','18 д','Дожди продолжаются на западе. Восточное побережье — ОК'],
+    9:['26–31°C','29°C','5 ч','19 д','Самый влажный месяц. Краби, Пхукет — дожди'],
+    10:['26–32°C','28°C','7 ч','12 д','Переходный период. Улучшение на Пхукете'],
+    11:['26–33°C','28°C','8 ч','5 д','Начало хорошего сезона. Лои Кратхонг (праздник огней)'],
+  },
+  egypt:{
+    0:['14–22°C','20°C','8 ч','1 д','Прохладно для купания, идеально для экскурсий в Каир и пирамиды'],
+    1:['15–24°C','20°C','9 ч','1 д','Отличное время — тепло, мало туристов, низкие цены'],
+    2:['18–27°C','21°C','9 ч','1 д','Весна начинается. Тепло, море ещё прохладное'],
+    3:['22–32°C','23°C','10 ч','0 д','Очень хорошо — тепло, море прогревается, мало туристов'],
+    4:['26–36°C','25°C','12 ч','0 д','Жарко, море хорошее. Отличный месяц для пляжа'],
+    5:['28–40°C','27°C','13 ч','0 д','Очень жарко. Шарм и Хургада — пляж отлично, город — жара'],
+    6:['29–42°C','28°C','13 ч','0 д','Пик жары +42°C. Только для любителей экстремальной жары'],
+    7:['29–41°C','29°C','13 ч','0 д','Аналогично июлю — максимальная жара'],
+    8:['27–38°C','28°C','12 ч','0 д','Жарко, но чуть лучше. Море тёплое'],
+    9:['24–33°C','27°C','11 ч','0 д','Хороший месяц — нежарко, море тёплое'],
+    10:['19–28°C','24°C','9 ч','0 д','Один из лучших месяцев. Комфортно, тепло'],
+    11:['16–24°C','22°C','8 ч','0 д','Хорошо для экскурсий, прохладно для купания'],
+  },
+  bali:{
+    0:['24–30°C','28°C','5 ч','20 д','Сезон дождей. Пышная природа, водопады, скидки'],
+    1:['24–30°C','28°C','6 ч','17 д','Дожди, но тепло. Убуд и культура отлично'],
+    2:['24–30°C','28°C','6 ч','16 д','Конец сезона дождей. Природа яркая, меньше туристов'],
+    3:['25–31°C','28°C','7 ч','13 д','Переходный период. Улучшение погоды'],
+    4:['24–31°C','28°C','8 ч','8 д','Начало сухого сезона. Хороший выбор'],
+    5:['23–30°C','27°C','9 ч','4 д','Отличный месяц — начало лучшего сезона'],
+    6:['22–29°C','27°C','9 ч','3 д','Лучший месяц! Сухой, солнечный, прохладный ветер'],
+    7:['22–29°C','27°C','9 ч','3 д','Пик туристического сезона. Сухо и солнечно'],
+    8:['22–29°C','27°C','9 ч','4 д','Отлично — сухой сезон, меньше туристов чем в июле'],
+    9:['23–30°C','28°C','8 ч','7 д','Хороший месяц, начало переходного периода'],
+    10:['23–30°C','28°C','6 ч','13 д','Начало дождливого сезона. Ещё терпимо'],
+    11:['24–30°C','28°C','5 ч','18 д','Сезон дождей. Скидки, меньше туристов'],
+  },
+  georgia:{
+    0:['-2–6°C','—','4 ч','8 д','Зима. Горнолыжный курорт Гудаури! Тбилиси — культура и вино'],
+    1:['0–8°C','—','5 ч','7 д','Конец зимы. Тбилиси и хинкали хороши в любое время'],
+    2:['5–14°C','—','6 ч','8 д','Весна начинается. Кахетия и виноградники оживают'],
+    3:['10–19°C','—','7 ч','9 д','Хорошая весна. Цветение, Тбилиси и горы'],
+    4:['15–24°C','—','8 ч','10 д','Отличное время! Тепло, зелено, туристов немного'],
+    5:['18–28°C','22°C','9 ч','8 д','Лето! Батуми и пляж открываются. Горы прекрасны'],
+    6:['21–32°C','24°C','10 ч','6 д','Пик лета. Батуми, Казбеги, Кахетия — всё отлично'],
+    7:['21–32°C','25°C','10 ч','6 д','Горячее лето. Пляж в Батуми, горы, вино'],
+    8:['17–28°C','24°C','9 ч','7 д','Бархатный сезон. Сбор урожая в Кахетии — rtveloba'],
+    9:['12–21°C','21°C','7 ч','9 д','Золотая осень. Кахетия+вино — лучшее время'],
+    10:['6–14°C','—','5 ч','10 д','Осень. Тбилиси уютный, горы с первым снегом'],
+    11:['1–8°C','—','4 ч','8 д','Зима. Гудаури открывается, Тбилиси и рождество'],
+  },
+  spain:{
+    0:['8–15°C','17°C','5 ч','8 д','Зима в Испании мягкая. Барселона и Мадрид — культура'],
+    1:['9–16°C','16°C','6 ч','7 д','Карнавал в Тенерифе — один из лучших в Европе!'],
+    2:['11–18°C','16°C','7 ч','7 д','Весна начинается. Цветение миндаля на Майорке'],
+    3:['13–20°C','17°C','8 ч','8 д','Пасха в Испании — красочно. Тепло, но море холодное'],
+    4:['16–23°C','19°C','9 ч','7 д','Хороший месяц. Тепло, немного туристов'],
+    5:['20–27°C','22°C','10 ч','5 д','Отличный сезон. Море прогрелось, жары ещё нет'],
+    6:['24–32°C','25°C','12 ч','2 д','Жаркое лето! Пляжи, фестивали, Сан-Хуан'],
+    7:['25–33°C','26°C','12 ч','1 д','Пик лета. Очень жарко, но море шикарное'],
+    8:['24–32°C','26°C','11 ч','3 д','Отличный август. Томатина в Буньоле — веселье!'],
+    9:['19–27°C','24°C','8 ч','5 д','Бархатный сезон — один из лучших месяцев'],
+    10:['14–21°C','20°C','6 ч','8 д','Осень. Тепло, мало туристов, низкие цены'],
+    11:['10–16°C','18°C','5 ч','9 д','Зима. Рождественские рынки, Тенерифе всегда тёплый'],
+  },
+  uae:{
+    0:['18–24°C','23°C','9 ч','1 д','Лучший месяц ОАЭ! Комфортная температура, купаться отлично'],
+    1:['19–26°C','23°C','10 ч','1 д','Отличный февраль. Дубай шоппинг-фестиваль'],
+    2:['21–30°C','25°C','10 ч','1 д','Тепло и солнечно. Ещё не жарко, хорошо для всего'],
+    3:['24–35°C','27°C','11 ч','0 д','Жарко. Пляж и бассейн. Начало туристического сезона'],
+    4:['28–40°C','30°C','12 ч','0 д','Очень жарко. Только ТЦ и отели с кондиционером'],
+    5:['30–43°C','31°C','13 ч','0 д','Экстремальная жара +43°C. Не рекомендуется'],
+    6:['30–43°C','33°C','13 ч','0 д','Самый жаркий месяц. Дешевле всего, но терпеть трудно'],
+    7:['30–43°C','34°C','13 ч','0 д','Ад. Минимальные цены, максимальная жара'],
+    8:['28–41°C','33°C','12 ч','0 д','Ещё очень жарко. Дешевые отели'],
+    9:['25–37°C','31°C','11 ч','0 д','Начинает спадать жара. Хорошие скидки'],
+    10:['22–32°C','28°C','10 ч','0 д','Приятная осень. Один из лучших месяцев'],
+    11:['19–27°C','25°C','9 ч','0 д','Отличный декабрь. Новый год в Дубае — незабываемо!'],
+  },
+  vietnam:{
+    0:['20–28°C','25°C','7 ч','5 д','Хороший сезон на юге (Фукуок, Нячанг). На севере прохладно'],
+    1:['21–29°C','26°C','8 ч','4 д','Один из лучших месяцев — тепло и сухо на юге и в центре'],
+    2:['22–30°C','27°C','8 ч','5 д','Отлично! Тет (Новый год). Хойан, Дананг, Фукуок шикарны'],
+    3:['24–32°C','28°C','9 ч','5 д','Жарко и сухо. Пляжный сезон в Хойане и Дананге'],
+    4:['27–34°C','29°C','8 ч','8 д','Жарко. Начало дождей на севере, юг ещё хорош'],
+    5:['27–33°C','29°C','6 ч','14 д','Сезон дождей на севере. Муйне — сухой сезон!'],
+    6:['27–32°C','29°C','5 ч','16 д','Дождливый сезон на большинстве курортов. Муйне — исключение'],
+    7:['27–32°C','29°C','5 ч','16 д','Аналогично июню. Фукуок и Муйне — лучший выбор'],
+    8:['27–32°C','29°C','5 ч','15 д','Дожди. Нячанг открывается (восточное побережье)'],
+    9:['25–30°C','28°C','6 ч','12 д','Тайфуны возможны. Нячанг и Фукуок подходят'],
+    10:['22–28°C','27°C','7 ч','8 д','Сезон дождей на центре. Фукуок и юг — хорошо'],
+    11:['20–27°C','26°C','8 ч','5 д','Начало лучшего сезона. Хойан, Дананг, Фукуок — отлично'],
+  },
+};
+
+let currentMonth = 6; // July default
+
+function buildMonthGrid() {
+  const grid = document.getElementById('month-grid');
+  const country = currentCountry || 'turkey';
+  const seasons = countrySeasons[country] || countrySeasons.turkey;
+  grid.innerHTML = MONTHS.map(mo => {
+    const s = seasons[mo.m];
+    return `<button class="month-btn season-${s} ${mo.m===currentMonth?'active':''}"
+      onclick="selectMonth(${mo.m},this)">
+      ${mo.n}
+      <div class="season-dot"></div>
+    </button>`;
+  }).join('');
+}
+
+function selectMonth(m, btn) {
+  currentMonth = m;
+  document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // update hero badge
+  document.getElementById('hero-month-badge').textContent = '📅 ' + MONTHS[m].full + ' 2026';
+  updateSeasonBanner();
+  updateWeatherPanel();
+  renderTours(document.querySelector('.tour-filter-btn.active')?.textContent.includes('Все') ? 'all'
+    : document.querySelector('.tour-filter-btn.active')?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || 'all');
+}
+
+function updateSeasonBanner() {
+  const country = currentCountry || 'turkey';
+  const seasons = countrySeasons[country] || countrySeasons.turkey;
+  const s = seasons[currentMonth];
+  const box = document.getElementById('season-banner-box');
+  if (!box) return;
+  const icons = {peak:'🔴', high:'🟡', low:'🟢'};
+  box.innerHTML = `<div class="season-banner ${s}">
+    <span class="sb-icon">${icons[s]}</span>
+    <div>
+      <strong>${seasonLabel[s]} · ${MONTHS[currentMonth].full}</strong>
+      ${seasonTip[s]}
+    </div>
+  </div>`;
+}
+
+function updateWeatherPanel() {
+  const panel = document.getElementById('weather-month-panel');
+  if (!panel) return;
+  const country = currentCountry || 'turkey';
+  const mdata = weatherData[country]?.[currentMonth];
+  if (!mdata) { panel.innerHTML = ''; return; }
+  const seasons = countrySeasons[country] || countrySeasons.turkey;
+  const s = seasons[currentMonth];
+  const seasonNames = {peak:'Высокий сезон 🔴', high:'Средний сезон 🟡', low:'Низкий сезон 🟢'};
+  const basePrice = {turkey:900, maldives:3800, thailand:1200, egypt:750, bali:1300, georgia:490, spain:1500, uae:1000, vietnam:940};
+  const base = basePrice[country] || 1000;
+  const price = Math.round(base * priceK[s] / 10) * 10;
+  panel.innerHTML = `
+  <div class="weather-month">
+    <h4>🌤️ Погода в ${MONTHS[currentMonth].full} · ${country === 'turkey' ? 'Турция' : country === 'maldives' ? 'Мальдивы' : country === 'thailand' ? 'Таиланд' : country === 'egypt' ? 'Египет' : country === 'bali' ? 'Бали' : country === 'georgia' ? 'Грузия' : country === 'spain' ? 'Испания' : country === 'uae' ? 'ОАЭ' : 'Вьетнам'}</h4>
+    <div class="wm-grid">
+      <div class="wm-item"><div class="wm-icon">🌡️</div><div class="wm-label">Воздух</div><div class="wm-val">${mdata[0]}</div></div>
+      <div class="wm-item"><div class="wm-icon">🌊</div><div class="wm-label">Море</div><div class="wm-val">${mdata[1]}</div></div>
+      <div class="wm-item"><div class="wm-icon">☀️</div><div class="wm-label">Солнце/день</div><div class="wm-val">${mdata[2]}</div></div>
+      <div class="wm-item"><div class="wm-icon">🌧️</div><div class="wm-label">Дождливых дней</div><div class="wm-val">${mdata[3]}</div></div>
+      <div class="wm-item"><div class="wm-icon">💰</div><div class="wm-label">Тур от (2 чел)</div><div class="wm-val">~${price.toLocaleString('ru')} 000 ₸</div></div>
+    </div>
+    <span class="wm-season-badge ${s}">${seasonNames[s]}</span>
+    <p style="margin-top:10px;font-size:.85rem;color:#666">${mdata[4]}</p>
+  </div>`;
+}
+
+// Patch renderDestCards to also refresh month grid dots & panels
+const _origRenderDestCards = renderDestCards;
+renderDestCards = function() {
+  _origRenderDestCards();
+  buildMonthGrid();
+  updateSeasonBanner();
+  updateWeatherPanel();
+};
 
 // ── INIT ─────────────────────────────────────────
 renderDestCards();
