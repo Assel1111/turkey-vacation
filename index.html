@@ -333,10 +333,42 @@
     .check{color:#2E7D32;font-size:1.1rem}
     .cross{color:#E53935;font-size:1.1rem}
 
+    /* ══ TRIP PARAMS ══ */
+    .trip-params{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;
+      max-width:700px;margin:16px auto 0;
+    }
+    .param-box{
+      background:rgba(255,255,255,.15);backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.3);border-radius:16px;
+      padding:16px 18px;
+    }
+    .param-label{font-size:.8rem;font-weight:600;opacity:.8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .param-controls{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.12);border-radius:50px;overflow:hidden;width:fit-content}
+    .param-btn{
+      width:38px;height:38px;border:none;background:rgba(255,255,255,.18);
+      color:#fff;font-size:1.25rem;cursor:pointer;font-weight:700;
+      transition:background .15s;display:grid;place-items:center;flex-shrink:0
+    }
+    .param-btn:hover{background:rgba(255,255,255,.32)}
+    .param-val{
+      min-width:54px;text-align:center;font-size:1.15rem;
+      font-weight:800;color:#fff;padding:0 6px;line-height:38px;
+    }
+    .param-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .param-preset{
+      padding:4px 12px;border-radius:50px;border:1.5px solid rgba(255,255,255,.3);
+      background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;font-weight:600;
+      cursor:pointer;transition:all .15s;
+    }
+    .param-preset:hover,.param-preset.active{background:#fff;color:var(--teal)}
+
     @media(max-width:600px){
       .flight-row{grid-template-columns:1fr 1fr}
       .flight-arrow{display:none}
       h2{font-size:1.3rem}
+      .trip-params{grid-template-columns:1fr}
+      .month-grid{grid-template-columns:repeat(4,1fr)}
     }
   </style>
 </head>
@@ -346,21 +378,57 @@
 <div class="hero">
   <span class="hero-emoji">🌍</span>
   <h1>Планировщик отпуска из Алматы</h1>
-  <p>Выберите направление · Июль 2026 · 2 человека</p>
+  <p>Настройте поездку под себя и найдите лучшие предложения</p>
   <div class="hero-badges">
     <span class="badge">✈️ Вылет из Алматы (ALA)</span>
     <span class="badge" id="hero-month-badge">📅 Июль 2026</span>
-    <span class="badge">👫 2 человека</span>
-    <span class="badge">🏖️ 7 ночей</span>
+    <span class="badge" id="hero-pax-badge">👫 2 человека</span>
+    <span class="badge" id="hero-nights-badge">🏖️ 7 ночей</span>
   </div>
 
-  <div class="month-picker">
-    <div class="month-picker-label">📅 Выберите месяц поездки:</div>
+  <!-- MONTH PICKER -->
+  <div class="month-picker" style="margin-top:22px">
+    <div class="month-picker-label">📅 Месяц поездки:</div>
     <div class="month-grid" id="month-grid"></div>
     <div class="season-legend">
       <div class="sl-item"><div class="sl-dot" style="background:#FF6F00"></div> Высокий сезон</div>
       <div class="sl-item"><div class="sl-dot" style="background:#FFD600"></div> Средний сезон</div>
       <div class="sl-item"><div class="sl-dot" style="background:#66BB6A"></div> Низкий сезон</div>
+    </div>
+  </div>
+
+  <!-- PEOPLE & NIGHTS -->
+  <div class="trip-params">
+    <!-- Количество человек -->
+    <div class="param-box">
+      <div class="param-label">👥 Количество человек</div>
+      <div class="param-controls">
+        <button class="param-btn" onclick="changePax(-1)">−</button>
+        <div class="param-val" id="pax-val">2</div>
+        <button class="param-btn" onclick="changePax(1)">+</button>
+      </div>
+      <div class="param-presets">
+        <button class="param-preset" onclick="setPax(1,this)">1 — соло</button>
+        <button class="param-preset active" onclick="setPax(2,this)">2 — пара</button>
+        <button class="param-preset" onclick="setPax(3,this)">3 чел</button>
+        <button class="param-preset" onclick="setPax(4,this)">4 — семья</button>
+      </div>
+    </div>
+
+    <!-- Количество ночей -->
+    <div class="param-box">
+      <div class="param-label">🌙 Количество ночей</div>
+      <div class="param-controls">
+        <button class="param-btn" onclick="changeNights(-1)">−</button>
+        <div class="param-val" id="nights-val">7</div>
+        <button class="param-btn" onclick="changeNights(1)">+</button>
+      </div>
+      <div class="param-presets">
+        <button class="param-preset" onclick="setNights(5,this)">5 н</button>
+        <button class="param-preset active" onclick="setNights(7,this)">7 н</button>
+        <button class="param-preset" onclick="setNights(10,this)">10 н</button>
+        <button class="param-preset" onclick="setNights(14,this)">14 н</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1675,10 +1743,157 @@ renderDestCards = function() {
   updateWeatherPanel();
 };
 
+// ── PAX & NIGHTS ─────────────────────────────────
+let currentPax = 2;
+let currentNights = 7;
+
+function paxLabel(n) {
+  if (n === 1) return '1 человек';
+  if (n <= 4)  return n + ' человека';
+  return n + ' человек';
+}
+function nightsLabel(n) {
+  if (n === 1) return '1 ночь';
+  if (n <= 4)  return n + ' ночи';
+  return n + ' ночей';
+}
+
+function updateHeroBadges() {
+  document.getElementById('hero-pax-badge').textContent    = '👥 ' + paxLabel(currentPax);
+  document.getElementById('hero-nights-badge').textContent = '🌙 ' + nightsLabel(currentNights);
+}
+
+function changePax(d) {
+  currentPax = Math.max(1, Math.min(12, currentPax + d));
+  document.getElementById('pax-val').textContent = currentPax;
+  syncPresets('.param-preset[onclick^="setPax"]', currentPax);
+  updateHeroBadges();
+  updateWeatherPanel();
+  rerenderActiveTours();
+}
+function setPax(n, btn) {
+  currentPax = n;
+  document.getElementById('pax-val').textContent = n;
+  syncPresets('.param-preset[onclick^="setPax"]', n);
+  updateHeroBadges();
+  updateWeatherPanel();
+  rerenderActiveTours();
+}
+
+function changeNights(d) {
+  currentNights = Math.max(1, Math.min(30, currentNights + d));
+  document.getElementById('nights-val').textContent = currentNights;
+  syncPresets('.param-preset[onclick^="setNights"]', currentNights);
+  updateHeroBadges();
+  updateWeatherPanel();
+  rerenderActiveTours();
+}
+function setNights(n, btn) {
+  currentNights = n;
+  document.getElementById('nights-val').textContent = n;
+  syncPresets('.param-preset[onclick^="setNights"]', n);
+  updateHeroBadges();
+  updateWeatherPanel();
+  rerenderActiveTours();
+}
+
+function syncPresets(selector, val) {
+  document.querySelectorAll(selector).forEach(b => {
+    const bVal = parseInt(b.getAttribute('onclick').match(/\d+/)[0]);
+    b.classList.toggle('active', bVal === val);
+  });
+}
+
+function rerenderActiveTours() {
+  const activeBtn = document.querySelector('.tour-filter-btn.active');
+  if (!activeBtn) return;
+  const m = activeBtn.getAttribute('onclick')?.match(/'([^']+)'/);
+  renderTours(m ? m[1] : 'all');
+}
+
+// Patch renderTours to scale prices by pax & nights
+const _origRenderTours = renderTours;
+renderTours = function(filter) {
+  const grid = document.getElementById('tours-grid');
+  const filtered = filter === 'all' ? tours : tours.filter(t => t.country === filter);
+  const nightBase = 7;
+  grid.innerHTML = filtered.map(t => {
+    // parse base price (2 pax / 7 nights)
+    const baseNum = parseInt(t.newPrice.replace(/[^0-9]/g,''));
+    const oldNum  = parseInt(t.oldPrice.replace(/[^0-9]/g,''));
+    const scaled  = Math.round(baseNum * (currentPax / 2) * (currentNights / nightBase) / 1000) * 1000;
+    const scaledOld = Math.round(oldNum * (currentPax / 2) * (currentNights / nightBase) / 1000) * 1000;
+    const newPriceStr = '~' + scaled.toLocaleString('ru') + ' ₸';
+    const oldPriceStr = '~' + scaledOld.toLocaleString('ru') + ' ₸';
+    const perStr = 'на ' + paxLabel(currentPax) + ' / ' + nightsLabel(currentNights);
+    return `
+    <div class="tour-card">
+      <div class="tour-card-banner" style="background:${t.color}">
+        <div class="banner-emoji">${t.emoji}</div>
+        <div class="tour-ribbon ${t.tagClass}">${t.tag}</div>
+        <div class="tour-operator">🏢 ${t.operator}</div>
+      </div>
+      <div class="tour-body">
+        <div class="tour-title">${t.title}</div>
+        <div class="tour-sub">📍 ${t.sub}</div>
+        <div class="tour-includes">
+          ${t.includes.map((inc,i)=>`<span class="inc-tag ${i%3===1?'orange':i%3===2?'green':''}">${inc}</span>`).join('')}
+        </div>
+        <ul class="tour-details">
+          ${t.details.map(d=>`<li><span>${d.i}</span><span>${d.t}</span></li>`).join('')}
+        </ul>
+        <div class="tour-footer">
+          <div class="tour-price-block">
+            <div class="old-price">${oldPriceStr}</div>
+            <div class="new-price">${newPriceStr}</div>
+            <div class="per">${perStr}</div>
+          </div>
+          <a href="${t.link}" target="_blank" style="text-decoration:none">
+            <button class="book-btn">Забронировать →</button>
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+// Patch updateWeatherPanel to show price per pax/nights
+const _origWeatherPanel = updateWeatherPanel;
+updateWeatherPanel = function() {
+  const panel = document.getElementById('weather-month-panel');
+  if (!panel) return;
+  const country = currentCountry || 'turkey';
+  const mdata = weatherData[country]?.[currentMonth];
+  if (!mdata) { panel.innerHTML = ''; return; }
+  const seasons = countrySeasons[country] || countrySeasons.turkey;
+  const s = seasons[currentMonth];
+  const seasonNames = {peak:'Высокий сезон 🔴', high:'Средний сезон 🟡', low:'Низкий сезон 🟢'};
+  const basePrice = {turkey:900,maldives:3800,thailand:1200,egypt:750,bali:1300,georgia:490,spain:1500,uae:1000,vietnam:940};
+  const base = basePrice[country] || 1000;
+  const price = Math.round(base * priceK[s] * (currentPax/2) * (currentNights/7) / 10) * 10;
+  const countryNames = {turkey:'Турция',maldives:'Мальдивы',thailand:'Таиланд',egypt:'Египет',bali:'Бали',georgia:'Грузия',spain:'Испания',uae:'ОАЭ',vietnam:'Вьетнам'};
+  panel.innerHTML = `
+  <div class="weather-month">
+    <h4>🌤️ Погода в ${MONTHS[currentMonth].full} · ${countryNames[country]||country}</h4>
+    <div class="wm-grid">
+      <div class="wm-item"><div class="wm-icon">🌡️</div><div class="wm-label">Воздух</div><div class="wm-val">${mdata[0]}</div></div>
+      <div class="wm-item"><div class="wm-icon">🌊</div><div class="wm-label">Море</div><div class="wm-val">${mdata[1]}</div></div>
+      <div class="wm-item"><div class="wm-icon">☀️</div><div class="wm-label">Солнце/день</div><div class="wm-val">${mdata[2]}</div></div>
+      <div class="wm-item"><div class="wm-icon">🌧️</div><div class="wm-label">Дождливых дней</div><div class="wm-val">${mdata[3]}</div></div>
+      <div class="wm-item"><div class="wm-icon">👥</div><div class="wm-label">Туристов</div><div class="wm-val">${paxLabel(currentPax)}</div></div>
+      <div class="wm-item"><div class="wm-icon">🌙</div><div class="wm-label">Ночей</div><div class="wm-val">${nightsLabel(currentNights)}</div></div>
+      <div class="wm-item"><div class="wm-icon">💰</div><div class="wm-label">Тур от</div><div class="wm-val">~${price.toLocaleString('ru')} 000 ₸</div></div>
+    </div>
+    <span class="wm-season-badge ${s}">${seasonNames[s]}</span>
+    <p style="margin-top:10px;font-size:.85rem;color:#666">${mdata[4]}</p>
+  </div>`;
+};
+
 // ── INIT ─────────────────────────────────────────
 renderDestCards();
 renderTours('all');
 loadChecklist();
+updateHeroBadges();
 </script>
 
 </body>
