@@ -3,258 +3,282 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Турция — Июль 2026 | Алматы → Анталья</title>
+  <title>Планировщик отпуска | Из Алматы · Июль 2026</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --teal:#0097A7;--orange:#FF6F00;--sand:#FFF8F0;
+      --dark:#1A1A2E;--shadow:0 8px 32px rgba(0,0,0,.10);
+    }
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--sand);color:#333;line-height:1.6}
 
-    :root {
-      --teal: #0097A7;
-      --orange: #FF6F00;
-      --sand: #FFF8F0;
-      --dark: #1A1A2E;
-      --card-bg: #ffffff;
-      --shadow: 0 8px 32px rgba(0,0,0,0.10);
+    /* ══ HERO ══ */
+    .hero{
+      background:linear-gradient(135deg,#0097A7 0%,#00BCD4 45%,#FF8F00 100%);
+      color:#fff;text-align:center;padding:70px 20px 80px;position:relative;overflow:hidden
     }
-
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--sand);
-      color: #333;
-      line-height: 1.6;
+    .hero::after{
+      content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;
+      background:var(--sand);clip-path:ellipse(55% 100% at 50% 100%)
     }
-
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #0097A7 0%, #00BCD4 40%, #FF8F00 100%);
-      color: white;
-      text-align: center;
-      padding: 80px 20px 60px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0; right: 0;
-      height: 60px;
-      background: var(--sand);
-      clip-path: ellipse(55% 100% at 50% 100%);
-    }
-    .hero-emoji { font-size: 72px; display: block; margin-bottom: 16px; }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -1px; }
-    .hero p { font-size: 1.2rem; margin-top: 10px; opacity: 0.92; }
-    .hero-badges {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-      margin-top: 28px;
-    }
-    .badge {
-      background: rgba(255,255,255,0.22);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 50px;
-      padding: 8px 20px;
-      font-size: 0.95rem;
-      font-weight: 600;
+    .hero-emoji{font-size:68px;display:block;margin-bottom:14px}
+    .hero h1{font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-1px}
+    .hero p{font-size:1.1rem;margin-top:8px;opacity:.93}
+    .hero-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
+    .badge{
+      background:rgba(255,255,255,.22);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.35);border-radius:50px;
+      padding:7px 18px;font-size:.9rem;font-weight:600
     }
 
-    /* LAYOUT */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-    section { padding: 56px 0; }
-    h2 {
-      font-size: 1.9rem; font-weight: 800; color: var(--dark);
-      margin-bottom: 32px;
-      display: flex; align-items: center; gap: 12px;
+    /* ══ DESTINATION SELECTOR ══ */
+    .dest-section{padding:50px 0 30px}
+    .dest-section h2{font-size:1.7rem;font-weight:800;color:var(--dark);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+    .dest-subtitle{color:#666;margin-bottom:28px;font-size:.95rem}
+    .dest-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+    .dest-tab{
+      padding:9px 20px;border-radius:50px;border:2px solid #ddd;
+      background:#fff;cursor:pointer;font-size:.9rem;font-weight:600;
+      transition:all .2s;color:#555
     }
-    h2 .icon { font-size: 1.6rem; }
+    .dest-tab:hover{border-color:var(--teal);color:var(--teal)}
+    .dest-tab.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(0,151,167,.3)}
+    .dest-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+    .dest-card{
+      border-radius:16px;overflow:hidden;cursor:pointer;
+      box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;
+      border:3px solid transparent;position:relative
+    }
+    .dest-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.14)}
+    .dest-card.selected{border-color:var(--teal)}
+    .dest-card.selected::after{
+      content:'✓';position:absolute;top:10px;right:10px;
+      background:var(--teal);color:#fff;width:28px;height:28px;
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:.9rem;
+      display:grid;place-items:center
+    }
+    .dest-card-img{
+      height:130px;display:flex;align-items:center;justify-content:center;
+      font-size:3.2rem;
+    }
+    .dest-card-info{background:#fff;padding:12px 14px}
+    .dest-card-info h4{font-size:.95rem;font-weight:700;color:var(--dark)}
+    .dest-card-info p{font-size:.78rem;color:#888;margin-top:2px}
+    .dest-card-info .dest-price{font-size:.85rem;font-weight:700;color:var(--orange);margin-top:5px}
 
-    /* CARDS GRID */
-    .cards { display: grid; gap: 22px; }
-    .cards-3 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-    .cards-2 { grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); }
+    /* ══ DESTINATION REGIONS (sub-tabs) ══ */
+    .region-bar{
+      background:#fff;border-radius:14px;padding:16px 20px;
+      box-shadow:var(--shadow);margin-bottom:28px;
+      display:none
+    }
+    .region-bar.visible{display:block}
+    .region-bar h4{font-size:.9rem;color:#888;margin-bottom:10px;font-weight:600}
+    .region-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .region-pill{
+      padding:6px 16px;border-radius:50px;border:1.5px solid #e0e0e0;
+      background:#fafafa;cursor:pointer;font-size:.85rem;font-weight:600;
+      transition:all .18s;color:#555
+    }
+    .region-pill:hover{border-color:var(--orange);color:var(--orange)}
+    .region-pill.active{background:var(--orange);border-color:var(--orange);color:#fff}
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.14); }
+    /* ══ CONTENT PANEL ══ */
+    .content-panel{display:none}
+    .content-panel.active{display:block}
 
-    .card-header {
-      padding: 22px 24px 16px;
-      background: linear-gradient(135deg, #0097A7, #00BCD4);
-      color: white;
-    }
-    .card-header.orange { background: linear-gradient(135deg, #FF6F00, #FF8F00); }
-    .card-header.purple { background: linear-gradient(135deg, #6A1B9A, #9C27B0); }
-    .card-header.green  { background: linear-gradient(135deg, #2E7D32, #43A047); }
-    .card-header h3 { font-size: 1.15rem; font-weight: 700; }
-    .card-header .price {
-      font-size: 1.7rem; font-weight: 800; margin-top: 4px;
-    }
-    .card-header .price small { font-size: 0.85rem; font-weight: 400; opacity: 0.85; }
-    .card-header .stars { color: #FFD600; font-size: 1.1rem; margin-top: 4px; }
+    /* ══ LAYOUT ══ */
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    section{padding:50px 0}
+    h2{font-size:1.75rem;font-weight:800;color:var(--dark);margin-bottom:28px;display:flex;align-items:center;gap:10px}
+    h2 .icon{font-size:1.5rem}
+    .divider{height:3px;background:linear-gradient(90deg,var(--teal),var(--orange));border-radius:3px;margin:0 auto 36px;width:60px}
 
-    .card-body { padding: 20px 24px; }
-    .card-body ul { list-style: none; }
-    .card-body ul li {
-      padding: 6px 0;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 0.95rem;
-      display: flex; align-items: flex-start; gap: 8px;
+    /* ══ TOUR PACKAGES ══ */
+    .tour-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+    .tour-filter-btn{
+      padding:7px 18px;border-radius:50px;border:2px solid #e0e0e0;
+      background:#fff;cursor:pointer;font-size:.85rem;font-weight:600;color:#666;
+      transition:all .18s
     }
-    .card-body ul li:last-child { border-bottom: none; }
-    .card-body ul li .li-icon { flex-shrink: 0; }
+    .tour-filter-btn.active,.tour-filter-btn:hover{background:var(--dark);border-color:var(--dark);color:#fff}
 
-    .tag {
-      display: inline-block;
-      background: #e3f7fa;
-      color: var(--teal);
-      border-radius: 6px;
-      padding: 2px 10px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-top: 8px;
+    .tours-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+    .tour-card{
+      background:#fff;border-radius:18px;box-shadow:var(--shadow);
+      overflow:hidden;transition:transform .2s,box-shadow .2s;
+      position:relative
     }
-    .tag.hot { background: #fff3e0; color: var(--orange); }
-    .tag.best { background: #e8f5e9; color: #2E7D32; }
+    .tour-card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,0,0,.14)}
+    .tour-card-banner{
+      height:160px;display:flex;align-items:flex-end;padding:16px;
+      position:relative;overflow:hidden
+    }
+    .tour-card-banner .banner-emoji{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+      font-size:4.5rem;opacity:.3
+    }
+    .tour-ribbon{
+      position:absolute;top:14px;left:0;
+      background:var(--orange);color:#fff;
+      font-size:.72rem;font-weight:700;padding:4px 14px 4px 10px;
+      border-radius:0 50px 50px 0;text-transform:uppercase;letter-spacing:.5px
+    }
+    .tour-ribbon.green{background:#2E7D32}
+    .tour-ribbon.purple{background:#6A1B9A}
+    .tour-operator{
+      background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+      border-radius:8px;padding:5px 10px;font-size:.75rem;font-weight:700;color:var(--dark);
+      position:relative;z-index:1
+    }
+    .tour-body{padding:18px 20px 20px}
+    .tour-title{font-size:1.05rem;font-weight:800;color:var(--dark);margin-bottom:4px}
+    .tour-sub{font-size:.85rem;color:#888;margin-bottom:14px}
+    .tour-includes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .inc-tag{
+      background:#f0f9fb;color:var(--teal);
+      border-radius:6px;padding:3px 10px;font-size:.75rem;font-weight:600
+    }
+    .inc-tag.orange{background:#fff3e0;color:var(--orange)}
+    .inc-tag.green{background:#e8f5e9;color:#2E7D32}
+    .inc-tag.purple{background:#f3e5f5;color:#6A1B9A}
+    .tour-details{list-style:none;margin-bottom:16px}
+    .tour-details li{
+      display:flex;align-items:flex-start;gap:8px;
+      padding:5px 0;border-bottom:1px solid #f5f5f5;font-size:.88rem
+    }
+    .tour-details li:last-child{border-bottom:none}
+    .tour-footer{
+      display:flex;align-items:center;justify-content:space-between;
+      padding-top:14px;border-top:1px solid #f0f0f0
+    }
+    .tour-price-block .old-price{font-size:.8rem;color:#bbb;text-decoration:line-through}
+    .tour-price-block .new-price{font-size:1.5rem;font-weight:800;color:var(--orange)}
+    .tour-price-block .per{font-size:.78rem;color:#888}
+    .book-btn{
+      background:linear-gradient(135deg,var(--teal),#00BCD4);
+      color:#fff;border:none;border-radius:50px;
+      padding:10px 22px;font-size:.9rem;font-weight:700;cursor:pointer;
+      transition:opacity .2s;white-space:nowrap
+    }
+    .book-btn:hover{opacity:.85}
 
-    /* FLIGHTS TABLE */
-    .flight-row {
-      background: white;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 20px 24px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto;
-      align-items: center;
-      gap: 16px;
-      transition: transform .2s;
+    /* ══ FLIGHTS ══ */
+    .flight-row{
+      background:#fff;border-radius:14px;box-shadow:var(--shadow);
+      padding:18px 22px;display:grid;
+      grid-template-columns:1fr auto 1fr auto;
+      align-items:center;gap:16px;transition:transform .2s;margin-bottom:14px
     }
-    .flight-row:hover { transform: translateY(-3px); }
-    .flight-city { font-weight: 700; font-size: 1.05rem; }
-    .flight-time { color: #555; font-size: 0.9rem; }
-    .flight-arrow { color: var(--teal); font-size: 1.5rem; text-align: center; }
-    .flight-price { font-size: 1.4rem; font-weight: 800; color: var(--orange); white-space: nowrap; }
-    .flight-airline { font-size: 0.85rem; color: #888; }
-    .flight-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .flight-row:hover{transform:translateY(-3px)}
+    .flight-city{font-weight:700;font-size:1rem}
+    .flight-time{color:#666;font-size:.85rem}
+    .flight-arrow{color:var(--teal);font-size:1.4rem;text-align:center}
+    .flight-price{font-size:1.35rem;font-weight:800;color:var(--orange);white-space:nowrap}
+    .flight-airline{font-size:.82rem;color:#888}
+    .ftag{display:inline-block;border-radius:6px;padding:2px 9px;font-size:.75rem;font-weight:600;margin-top:5px;margin-right:4px}
+    .ftag.best{background:#e8f5e9;color:#2E7D32}
+    .ftag.hot{background:#fff3e0;color:var(--orange)}
+    .ftag.blue{background:#e3f7fa;color:var(--teal)}
 
-    /* CHECKLIST */
-    .checklist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .checklist-category {
-      background: white;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .checklist-category h4 {
-      padding: 14px 18px;
-      font-size: 1rem; font-weight: 700; color: white;
-    }
-    .checklist-category.docs h4 { background: #0097A7; }
-    .checklist-category.clothes h4 { background: #FF6F00; }
-    .checklist-category.health h4 { background: #E53935; }
-    .checklist-category.tech h4 { background: #5E35B1; }
-    .checklist-category.money h4 { background: #2E7D32; }
-    .checklist-category.beach h4 { background: #00838F; }
-    .checklist-category.misc h4 { background: #6D4C41; }
-    .checklist-category.kids h4 { background: #F06292; }
+    /* ══ HOTELS ══ */
+    .hotels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+    .hotel-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;transition:transform .2s}
+    .hotel-card:hover{transform:translateY(-4px)}
+    .hotel-head{padding:20px 22px 14px;color:#fff}
+    .hotel-head h3{font-size:1.05rem;font-weight:700}
+    .hotel-head .hprice{font-size:1.5rem;font-weight:800;margin-top:4px}
+    .hotel-head .stars{color:#FFD600;font-size:1rem;margin-top:3px}
+    .hotel-body{padding:16px 22px}
+    .hotel-body ul{list-style:none}
+    .hotel-body li{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid #f5f5f5;font-size:.88rem}
+    .hotel-body li:last-child{border-bottom:none}
+    .htag{display:inline-block;border-radius:6px;padding:2px 9px;font-size:.75rem;font-weight:600;margin-top:8px}
+    .htag.best{background:#e8f5e9;color:#2E7D32}
+    .htag.hot{background:#fff3e0;color:var(--orange)}
 
-    .checklist-items { padding: 12px 18px; }
-    .checklist-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 7px 0;
-      border-bottom: 1px solid #f5f5f5;
-      cursor: pointer;
-      user-select: none;
+    /* ══ WEATHER ══ */
+    .weather-bar{
+      display:flex;flex-wrap:wrap;gap:12px;background:#fff;
+      border-radius:16px;padding:24px;box-shadow:var(--shadow)
     }
-    .checklist-item:last-child { border-bottom: none; }
-    .checklist-item input[type=checkbox] {
-      width: 18px; height: 18px; cursor: pointer;
-      accent-color: var(--teal);
-      flex-shrink: 0;
-    }
-    .checklist-item label { cursor: pointer; font-size: 0.92rem; }
-    .checklist-item input:checked + label { text-decoration: line-through; color: #aaa; }
+    .wi{text-align:center;flex:1;min-width:80px}
+    .wi .wicon{font-size:1.8rem}
+    .wi .wlbl{font-size:.75rem;color:#888;margin-top:3px}
+    .wi .wval{font-size:1.05rem;font-weight:700;color:var(--dark)}
 
-    /* TIPS */
-    .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
-    .tip-card {
-      background: white;
-      border-radius: 14px;
-      padding: 22px 20px;
-      box-shadow: var(--shadow);
-      text-align: center;
-    }
-    .tip-card .tip-icon { font-size: 2.2rem; margin-bottom: 10px; }
-    .tip-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
-    .tip-card p { font-size: 0.85rem; color: #666; }
+    /* ══ CHECKLIST ══ */
+    .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+    .cl-cat{background:#fff;border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+    .cl-cat h4{padding:12px 16px;font-size:.95rem;font-weight:700;color:#fff}
+    .cl-items{padding:10px 16px}
+    .cl-item{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid #f5f5f5;cursor:pointer}
+    .cl-item:last-child{border-bottom:none}
+    .cl-item input{width:17px;height:17px;cursor:pointer;accent-color:var(--teal);flex-shrink:0}
+    .cl-item label{cursor:pointer;font-size:.88rem}
+    .cl-item input:checked+label{text-decoration:line-through;color:#bbb}
+    .progress-wrap{margin-bottom:24px}
+    .progress-lbl{display:flex;justify-content:space-between;font-size:.83rem;color:#666;margin-bottom:5px}
+    .progress-bar{height:9px;background:#e0e0e0;border-radius:9px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),#00BCD4);border-radius:9px;transition:width .4s}
 
-    /* BUDGET */
-    .budget-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .budget-table th {
-      background: var(--dark);
-      color: white;
-      padding: 14px 20px;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-    .budget-table td { padding: 13px 20px; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
-    .budget-table tr:last-child td { border-bottom: none; font-weight: 700; background: #f9f9f9; }
-    .budget-table tr:hover td { background: #f5faff; }
-    .budget-amount { text-align: right; font-weight: 600; color: var(--teal); }
-    .budget-total .budget-amount { color: var(--orange); font-size: 1.1rem; }
+    /* ══ BUDGET ══ */
+    .budget-tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+    .budget-tbl th{background:var(--dark);color:#fff;padding:13px 18px;text-align:left;font-size:.88rem}
+    .budget-tbl td{padding:12px 18px;border-bottom:1px solid #f0f0f0;font-size:.92rem}
+    .budget-tbl tr:last-child td{border-bottom:none;font-weight:700;background:#f9f9f9}
+    .budget-tbl tr:hover td{background:#f5faff}
+    .ba{text-align:right;font-weight:600;color:var(--teal)}
+    .ba.total{color:var(--orange);font-size:1.05rem}
 
-    /* WEATHER */
-    .weather-bar {
-      display: flex; flex-wrap: wrap; gap: 14px;
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: var(--shadow);
+    /* ══ TIPS ══ */
+    .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+    .tip{background:#fff;border-radius:13px;padding:20px 18px;box-shadow:var(--shadow);text-align:center}
+    .tip .tico{font-size:2rem;margin-bottom:8px}
+    .tip h4{font-size:.9rem;font-weight:700;color:var(--dark);margin-bottom:5px}
+    .tip p{font-size:.82rem;color:#666}
+
+    /* ══ FOOTER ══ */
+    footer{background:var(--dark);color:rgba(255,255,255,.7);text-align:center;padding:30px 20px;font-size:.88rem}
+    footer strong{color:#fff}
+
+    /* ══ TABS NAV ══ */
+    .main-nav{
+      background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);
+      position:sticky;top:0;z-index:100;
     }
-    .weather-item { text-align: center; flex: 1; min-width: 90px; }
-    .weather-item .w-icon { font-size: 2rem; }
-    .weather-item .w-label { font-size: 0.8rem; color: #888; margin-top: 4px; }
-    .weather-item .w-val { font-size: 1.15rem; font-weight: 700; color: var(--dark); }
-
-    /* PROGRESS */
-    .progress-wrap { margin-top: 16px; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; margin-bottom: 6px; }
-    .progress-bar { height: 10px; background: #e0e0e0; border-radius: 10px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), #00BCD4); border-radius: 10px; transition: width .5s; }
-
-    /* FOOTER */
-    footer {
-      background: var(--dark);
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 32px 20px;
-      font-size: 0.9rem;
+    .main-nav-inner{
+      max-width:1100px;margin:0 auto;padding:0 20px;
+      display:flex;gap:4px;overflow-x:auto;
     }
-    footer strong { color: white; }
-
-    /* DIVIDER */
-    .divider {
-      height: 3px;
-      background: linear-gradient(90deg, var(--teal), var(--orange));
-      border-radius: 3px;
-      margin: 0 auto 40px;
-      width: 60px;
+    .nav-btn{
+      padding:14px 18px;border:none;background:none;cursor:pointer;
+      font-size:.88rem;font-weight:600;color:#888;
+      white-space:nowrap;border-bottom:3px solid transparent;
+      transition:all .18s
     }
+    .nav-btn.active,.nav-btn:hover{color:var(--teal);border-bottom-color:var(--teal)}
 
-    @media (max-width: 600px) {
-      .flight-row { grid-template-columns: 1fr 1fr; }
-      .flight-arrow { display: none; }
-      h2 { font-size: 1.4rem; }
+    /* ══ SECTION PANEL ══ */
+    .sec-panel{display:none}
+    .sec-panel.active{display:block}
+
+    /* ══ COMPARE TABLE ══ */
+    .compare-wrap{overflow-x:auto}
+    .compare-tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);min-width:700px}
+    .compare-tbl th{background:var(--dark);color:#fff;padding:12px 16px;font-size:.85rem;text-align:center}
+    .compare-tbl th:first-child{text-align:left}
+    .compare-tbl td{padding:11px 16px;border-bottom:1px solid #f0f0f0;font-size:.88rem;text-align:center}
+    .compare-tbl td:first-child{text-align:left;font-weight:600}
+    .compare-tbl tr:hover td{background:#f5faff}
+    .check{color:#2E7D32;font-size:1.1rem}
+    .cross{color:#E53935;font-size:1.1rem}
+
+    @media(max-width:600px){
+      .flight-row{grid-template-columns:1fr 1fr}
+      .flight-arrow{display:none}
+      h2{font-size:1.3rem}
     }
   </style>
 </head>
@@ -262,591 +286,981 @@
 
 <!-- HERO -->
 <div class="hero">
-  <span class="hero-emoji">🌊</span>
-  <h1>Турция — Июль 2026</h1>
-  <p>Алматы → Анталья · 2 человека · 7 ночей</p>
+  <span class="hero-emoji">🌍</span>
+  <h1>Планировщик отпуска из Алматы</h1>
+  <p>Выберите направление · Июль 2026 · 2 человека</p>
   <div class="hero-badges">
-    <span class="badge">✈️ ~7 часов в пути</span>
-    <span class="badge">☀️ +35°C на море</span>
-    <span class="badge">🏖️ All Inclusive</span>
-    <span class="badge">💰 от 450 000 ₸ / чел</span>
+    <span class="badge">✈️ Вылет из Алматы (ALA)</span>
+    <span class="badge">📅 Июль 2026</span>
+    <span class="badge">👫 2 человека</span>
+    <span class="badge">🏖️ 7 ночей</span>
   </div>
 </div>
 
-<!-- WEATHER -->
-<section>
+<!-- STICKY NAV -->
+<nav class="main-nav">
+  <div class="main-nav-inner">
+    <button class="nav-btn active" onclick="showTab('tab-dest')">🌍 Направление</button>
+    <button class="nav-btn" onclick="showTab('tab-tours')">📦 Готовые туры</button>
+    <button class="nav-btn" onclick="showTab('tab-flights')">✈️ Перелёт</button>
+    <button class="nav-btn" onclick="showTab('tab-hotels')">🏨 Отели</button>
+    <button class="nav-btn" onclick="showTab('tab-checklist')">✅ Чек-лист</button>
+    <button class="nav-btn" onclick="showTab('tab-budget')">💰 Бюджет</button>
+    <button class="nav-btn" onclick="showTab('tab-tips')">💡 Советы</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: НАПРАВЛЕНИЕ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-dest" class="sec-panel active">
+<section class="dest-section">
   <div class="container">
-    <h2><span class="icon">🌤️</span> Погода в Турции — Июль</h2>
+    <h2>🌍 Выберите направление</h2>
+    <p class="dest-subtitle">Нажмите на страну, затем выберите курорт или регион</p>
+
+    <!-- Country tabs -->
+    <div class="dest-tabs">
+      <button class="dest-tab active" onclick="selectCountry('turkey',this)">🇹🇷 Турция</button>
+      <button class="dest-tab" onclick="selectCountry('maldives',this)">🇲🇻 Мальдивы</button>
+      <button class="dest-tab" onclick="selectCountry('thailand',this)">🇹🇭 Таиланд</button>
+      <button class="dest-tab" onclick="selectCountry('egypt',this)">🇪🇬 Египет</button>
+      <button class="dest-tab" onclick="selectCountry('bali',this)">🇮🇩 Бали</button>
+      <button class="dest-tab" onclick="selectCountry('georgia',this)">🇬🇪 Грузия</button>
+      <button class="dest-tab" onclick="selectCountry('spain',this)">🇪🇸 Испания</button>
+      <button class="dest-tab" onclick="selectCountry('uae',this)">🇦🇪 ОАЭ</button>
+    </div>
+
+    <!-- TURKEY regions -->
+    <div id="region-turkey" class="region-bar visible">
+      <h4>📍 Регион / курорт:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('antalya',this,'turkey')">🏖️ Анталья</button>
+        <button class="region-pill" onclick="selectRegion('istanbul',this,'turkey')">🕌 Стамбул</button>
+        <button class="region-pill" onclick="selectRegion('bodrum',this,'turkey')">⛵ Бодрум</button>
+        <button class="region-pill" onclick="selectRegion('alanya',this,'turkey')">🌊 Аланья</button>
+        <button class="region-pill" onclick="selectRegion('cappadocia',this,'turkey')">🎈 Каппадокия</button>
+        <button class="region-pill" onclick="selectRegion('fethiye',this,'turkey')">🏔️ Фетхие</button>
+        <button class="region-pill" onclick="selectRegion('belek',this,'turkey')">⛳ Белек</button>
+        <button class="region-pill" onclick="selectRegion('marmaris',this,'turkey')">🛥️ Мармарис</button>
+      </div>
+    </div>
+    <div id="region-maldives" class="region-bar">
+      <h4>📍 Атолл:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('male',this,'maldives')">🐠 Мале Атолл</button>
+        <button class="region-pill" onclick="selectRegion('baa',this,'maldives')">🌊 Баа Атолл</button>
+        <button class="region-pill" onclick="selectRegion('ari',this,'maldives')">🤿 Ари Атолл</button>
+        <button class="region-pill" onclick="selectRegion('noonu',this,'maldives')">🌴 Нуну Атолл</button>
+      </div>
+    </div>
+    <div id="region-thailand" class="region-bar">
+      <h4>📍 Курорт:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('phuket',this,'thailand')">🏝️ Пхукет</button>
+        <button class="region-pill" onclick="selectRegion('samui',this,'thailand')">🌺 Самуи</button>
+        <button class="region-pill" onclick="selectRegion('pattaya',this,'thailand')">🎡 Паттайя</button>
+        <button class="region-pill" onclick="selectRegion('krabi',this,'thailand')">🏔️ Краби</button>
+      </div>
+    </div>
+    <div id="region-egypt" class="region-bar">
+      <h4>📍 Курорт:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('sharm',this,'egypt')">🤿 Шарм-эль-Шейх</button>
+        <button class="region-pill" onclick="selectRegion('hurghada',this,'egypt')">🌊 Хургада</button>
+        <button class="region-pill" onclick="selectRegion('cairo',this,'egypt')">🏛️ Каир</button>
+      </div>
+    </div>
+    <div id="region-bali" class="region-bar">
+      <h4>📍 Район:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('seminyak',this,'bali')">🌅 Семиньяк</button>
+        <button class="region-pill" onclick="selectRegion('ubud',this,'bali')">🌿 Убуд</button>
+        <button class="region-pill" onclick="selectRegion('nusadua',this,'bali')">🏖️ Нуса-Дуа</button>
+        <button class="region-pill" onclick="selectRegion('uluwatu',this,'bali')">🏄 Улувату</button>
+      </div>
+    </div>
+    <div id="region-georgia" class="region-bar">
+      <h4>📍 Город / курорт:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('tbilisi',this,'georgia')">🏙️ Тбилиси</button>
+        <button class="region-pill" onclick="selectRegion('batumi',this,'georgia')">🌊 Батуми</button>
+        <button class="region-pill" onclick="selectRegion('kazbegi',this,'georgia')">⛰️ Казбеги</button>
+        <button class="region-pill" onclick="selectRegion('kakheti',this,'georgia')">🍷 Кахетия</button>
+      </div>
+    </div>
+    <div id="region-spain" class="region-bar">
+      <h4>📍 Регион:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('barcelona',this,'spain')">🏟️ Барселона</button>
+        <button class="region-pill" onclick="selectRegion('tenerife',this,'spain')">🌋 Тенерифе</button>
+        <button class="region-pill" onclick="selectRegion('mallorca',this,'spain')">⛵ Майорка</button>
+        <button class="region-pill" onclick="selectRegion('madrid',this,'spain')">🎨 Мадрид</button>
+      </div>
+    </div>
+    <div id="region-uae" class="region-bar">
+      <h4>📍 Эмират:</h4>
+      <div class="region-pills">
+        <button class="region-pill active" onclick="selectRegion('dubai',this,'uae')">🏙️ Дубай</button>
+        <button class="region-pill" onclick="selectRegion('abudhabi',this,'uae')">🕌 Абу-Даби</button>
+        <button class="region-pill" onclick="selectRegion('sharjah',this,'uae')">🌆 Шарджа</button>
+      </div>
+    </div>
+
+    <!-- Destination Cards -->
+    <div class="dest-cards" id="dest-cards-grid">
+      <!-- Filled by JS -->
+    </div>
+
+    <!-- Info panel -->
+    <div id="dest-info" style="margin-top:28px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:26px 28px;display:none">
+      <div id="dest-info-content"></div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: ГОТОВЫЕ ТУРЫ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-tours" class="sec-panel">
+<section style="padding:50px 0">
+  <div class="container">
+    <h2><span class="icon">📦</span> Готовые туры с перелётом</h2>
     <div class="divider"></div>
-    <div class="weather-bar">
-      <div class="weather-item"><div class="w-icon">🌡️</div><div class="w-label">Воздух днём</div><div class="w-val">+34–38°C</div></div>
-      <div class="weather-item"><div class="w-icon">🌙</div><div class="w-label">Ночью</div><div class="w-val">+24–26°C</div></div>
-      <div class="weather-item"><div class="w-icon">🌊</div><div class="w-label">Море</div><div class="w-val">+27–29°C</div></div>
-      <div class="weather-item"><div class="w-icon">☀️</div><div class="w-label">Солнечных дней</div><div class="w-val">28–31</div></div>
-      <div class="weather-item"><div class="w-icon">💧</div><div class="w-label">Влажность</div><div class="w-val">55–65%</div></div>
-      <div class="weather-item"><div class="w-icon">🌬️</div><div class="w-label">Ветер</div><div class="w-val">7–12 км/ч</div></div>
-      <div class="weather-item"><div class="w-icon">🕶️</div><div class="w-label">УФ-индекс</div><div class="w-val">11 (max)</div></div>
+
+    <div style="background:#e8f5e9;border-left:4px solid #2E7D32;border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:.92rem">
+      ✅ <strong>В пакет входит:</strong> авиабилеты туда-обратно · трансфер аэропорт↔отель · проживание · питание по программе · страховка ВЗР · визовая поддержка (если нужна)
+    </div>
+
+    <!-- Filter -->
+    <div class="tour-filter">
+      <button class="tour-filter-btn active" onclick="filterTours('all',this)">Все направления</button>
+      <button class="tour-filter-btn" onclick="filterTours('turkey',this)">🇹🇷 Турция</button>
+      <button class="tour-filter-btn" onclick="filterTours('egypt',this)">🇪🇬 Египет</button>
+      <button class="tour-filter-btn" onclick="filterTours('thailand',this)">🇹🇭 Таиланд</button>
+      <button class="tour-filter-btn" onclick="filterTours('maldives',this)">🇲🇻 Мальдивы</button>
+      <button class="tour-filter-btn" onclick="filterTours('uae',this)">🇦🇪 ОАЭ</button>
+      <button class="tour-filter-btn" onclick="filterTours('bali',this)">🇮🇩 Бали</button>
+      <button class="tour-filter-btn" onclick="filterTours('georgia',this)">🇬🇪 Грузия</button>
+    </div>
+
+    <div class="tours-grid" id="tours-grid">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- Compare table -->
+    <h2 style="margin-top:50px"><span class="icon">📊</span> Сравнение туров по включённым услугам</h2>
+    <div class="compare-wrap">
+      <table class="compare-tbl">
+        <thead>
+          <tr>
+            <th>Тур-оператор / пакет</th>
+            <th>Перелёт</th>
+            <th>Трансфер</th>
+            <th>Отель</th>
+            <th>Питание</th>
+            <th>Страховка</th>
+            <th>Виза</th>
+            <th>Экскурсии</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Pegas Touristik — Ultra AI</td><td class="check">✓</td><td class="check">✓</td><td class="check">5★</td><td class="check">Ultra AI</td><td class="check">✓</td><td class="check">✓</td><td class="cross">—</td></tr>
+          <tr><td>Coral Travel — Lux</td><td class="check">✓</td><td class="check">✓</td><td class="check">5★</td><td class="check">AI</td><td class="check">✓</td><td class="check">✓</td><td class="check">1 экскурсия</td></tr>
+          <tr><td>TUI — Classic</td><td class="check">✓</td><td class="check">✓</td><td class="check">4★</td><td class="check">AI</td><td class="check">✓</td><td class="check">✓</td><td class="cross">—</td></tr>
+          <tr><td>Join UP! — Premium</td><td class="check">✓</td><td class="check">✓</td><td class="check">5★</td><td class="check">Ultra AI</td><td class="check">✓</td><td class="check">✓</td><td class="check">2 экскурсии</td></tr>
+          <tr><td>Anex Tour — Standard</td><td class="check">✓</td><td class="check">✓</td><td class="check">4★</td><td class="check">AI</td><td class="check">✓</td><td class="cross">доп.</td><td class="cross">—</td></tr>
+          <tr><td>Biblio Globus</td><td class="check">✓</td><td class="cross">доп.</td><td class="check">4★</td><td class="check">HB</td><td class="check">✓</td><td class="check">✓</td><td class="check">3 экскурсии</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
+</div>
 
-<!-- FLIGHTS -->
-<section style="background: #f0fbfc; padding: 56px 0;">
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: ПЕРЕЛЁТ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-flights" class="sec-panel">
+<section style="background:#f0fbfc;padding:50px 0">
   <div class="container">
-    <h2><span class="icon">✈️</span> Перелёт: Алматы → Анталья</h2>
+    <h2><span class="icon">✈️</span> Перелёт: Алматы → выбранное направление</h2>
     <div class="divider"></div>
-    <div style="display: flex; flex-direction: column; gap: 16px;">
 
-      <div class="flight-row">
-        <div>
-          <div class="flight-city">Алматы (ALA)</div>
-          <div class="flight-time">02:30 → 08:15 (Москва)</div>
-          <div class="flight-airline">Air Astana + Turkish Airlines</div>
-          <div class="flight-badges">
-            <span class="tag best">⭐ Лучший вариант</span>
-            <span class="tag">1 пересадка · Стамбул</span>
-          </div>
-        </div>
-        <div class="flight-arrow">→</div>
-        <div>
-          <div class="flight-city">Анталья (AYT)</div>
-          <div class="flight-time">Итого ~9 ч 45 мин</div>
-          <div class="flight-airline">Стыковка в Стамбуле (IST) 2–3 ч</div>
-        </div>
-        <div>
-          <div class="flight-price">~85 000 ₸<small>/чел</small></div>
-          <div class="flight-airline">в обе стороны</div>
-        </div>
+    <div class="flight-row">
+      <div>
+        <div class="flight-city">Алматы (ALA)</div>
+        <div class="flight-time">02:30 → стыковка Стамбул IST</div>
+        <div class="flight-airline">Air Astana + Turkish Airlines</div>
+        <span class="ftag best">⭐ Лучший вариант</span>
+        <span class="ftag blue">1 пересадка</span>
       </div>
-
-      <div class="flight-row">
-        <div>
-          <div class="flight-city">Алматы (ALA)</div>
-          <div class="flight-time">05:10 → 11:40 (Дубай)</div>
-          <div class="flight-airline">FlyDubai + flydubai</div>
-          <div class="flight-badges">
-            <span class="tag hot">🔥 Бюджетный</span>
-            <span class="tag">1 пересадка · Дубай</span>
-          </div>
-        </div>
-        <div class="flight-arrow">→</div>
-        <div>
-          <div class="flight-city">Анталья (AYT)</div>
-          <div class="flight-time">Итого ~11 ч 30 мин</div>
-          <div class="flight-airline">Стыковка в Дубае 3–4 ч</div>
-        </div>
-        <div>
-          <div class="flight-price">~68 000 ₸<small>/чел</small></div>
-          <div class="flight-airline">в обе стороны</div>
-        </div>
+      <div class="flight-arrow">→</div>
+      <div>
+        <div class="flight-city">Анталья (AYT)</div>
+        <div class="flight-time">Итого ~9 ч 45 мин</div>
+        <div class="flight-airline">Стыковка IST 2–3 ч</div>
       </div>
-
-      <div class="flight-row">
-        <div>
-          <div class="flight-city">Алматы (ALA)</div>
-          <div class="flight-time">22:55 → 06:30+1</div>
-          <div class="flight-airline">Pegasus Airlines</div>
-          <div class="flight-badges">
-            <span class="tag">1 пересадка · Стамбул SAW</span>
-          </div>
-        </div>
-        <div class="flight-arrow">→</div>
-        <div>
-          <div class="flight-city">Анталья (AYT)</div>
-          <div class="flight-time">Итого ~10 ч 35 мин</div>
-          <div class="flight-airline">Лоукостер, ручная кладь 8 кг</div>
-        </div>
-        <div>
-          <div class="flight-price">~72 000 ₸<small>/чел</small></div>
-          <div class="flight-airline">в обе стороны</div>
-        </div>
+      <div>
+        <div class="flight-price">~85 000 ₸<small style="font-size:.78rem;font-weight:400">/чел</small></div>
+        <div class="flight-airline">туда-обратно</div>
       </div>
-
     </div>
-    <p style="margin-top:18px; font-size:0.85rem; color:#888;">* Цены ориентировочные, для июля 2026. Ищите на aviasales.kz, skyscanner.ru, kiwi.com. Бронируйте за 2–3 месяца.</p>
+
+    <div class="flight-row">
+      <div>
+        <div class="flight-city">Алматы (ALA)</div>
+        <div class="flight-time">05:10 → стыковка Дубай DXB</div>
+        <div class="flight-airline">flydubai</div>
+        <span class="ftag hot">💸 Бюджетный</span>
+        <span class="ftag blue">1 пересадка</span>
+      </div>
+      <div class="flight-arrow">→</div>
+      <div>
+        <div class="flight-city">Анталья / Дубай / Пхукет</div>
+        <div class="flight-time">Итого ~11–14 ч</div>
+        <div class="flight-airline">Стыковка DXB 3–4 ч</div>
+      </div>
+      <div>
+        <div class="flight-price">~65 000 ₸<small style="font-size:.78rem;font-weight:400">/чел</small></div>
+        <div class="flight-airline">туда-обратно</div>
+      </div>
+    </div>
+
+    <div class="flight-row">
+      <div>
+        <div class="flight-city">Алматы (ALA)</div>
+        <div class="flight-time">22:55 → стыковка Стамбул SAW</div>
+        <div class="flight-airline">Pegasus Airlines</div>
+        <span class="ftag blue">Лоукостер</span>
+      </div>
+      <div class="flight-arrow">→</div>
+      <div>
+        <div class="flight-city">Анталья (AYT)</div>
+        <div class="flight-time">Итого ~10 ч 35 мин</div>
+        <div class="flight-airline">Ручная кладь 8 кг</div>
+      </div>
+      <div>
+        <div class="flight-price">~72 000 ₸<small style="font-size:.78rem;font-weight:400">/чел</small></div>
+        <div class="flight-airline">туда-обратно</div>
+      </div>
+    </div>
+
+    <div class="flight-row">
+      <div>
+        <div class="flight-city">Алматы (ALA)</div>
+        <div class="flight-time">Прямые чартеры (июль)</div>
+        <div class="flight-airline">Pegas / Coral / TUI чартер</div>
+        <span class="ftag best">🏆 Только в пакете</span>
+      </div>
+      <div class="flight-arrow">→</div>
+      <div>
+        <div class="flight-city">Анталья / Шарм / Хургада</div>
+        <div class="flight-time">Прямой: ~6–7 ч</div>
+        <div class="flight-airline">Входит в тур-пакет</div>
+      </div>
+      <div>
+        <div class="flight-price">~55 000 ₸<small style="font-size:.78rem;font-weight:400">/чел</small></div>
+        <div class="flight-airline">в составе тура</div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;font-size:.82rem;color:#888">* Ищите на: aviasales.kz · skyscanner.ru · kiwi.com · booking.com/flights · Бронируйте за 2–3 месяца до вылета</p>
   </div>
 </section>
+</div>
 
-<!-- HOTELS -->
-<section>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: ОТЕЛИ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-hotels" class="sec-panel">
+<section style="padding:50px 0">
   <div class="container">
-    <h2><span class="icon">🏨</span> Лучшие отели — All Inclusive</h2>
+    <h2><span class="icon">🏨</span> Лучшие отели All Inclusive</h2>
     <div class="divider"></div>
-    <div class="cards cards-3">
+    <div class="hotels-grid">
 
-      <div class="card">
-        <div class="card-header green">
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#2E7D32,#43A047)">
           <div class="stars">★★★★★</div>
           <h3>Rixos Premium Belek</h3>
-          <div class="price">~320 000 ₸ <small>/ ночь (2 чел)</small></div>
+          <div class="hprice">~320 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
         </div>
-        <div class="card-body">
+        <div class="hotel-body">
           <ul>
-            <li><span class="li-icon">📍</span> Белек, пляж 800 м</li>
-            <li><span class="li-icon">🍽️</span> Ultra All Inclusive, 14 ресторанов</li>
-            <li><span class="li-icon">🏊</span> 7 бассейнов, аквапарк</li>
-            <li><span class="li-icon">🎭</span> Вечерние шоу, SPA, теннис</li>
-            <li><span class="li-icon">👶</span> Детский клуб Rixy Kids</li>
+            <li>📍 Белек, пляж 800 м</li>
+            <li>🍽️ Ultra All Inclusive, 14 ресторанов</li>
+            <li>🏊 7 бассейнов + аквапарк</li>
+            <li>🎭 Вечерние шоу, SPA, теннис</li>
+            <li>👶 Детский клуб Rixy Kids</li>
           </ul>
-          <span class="tag best">⭐ Премиум выбор</span>
+          <span class="htag best">⭐ Премиум</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#0097A7,#00BCD4)">
           <div class="stars">★★★★★</div>
           <h3>Titanic Mardan Palace</h3>
-          <div class="price">~280 000 ₸ <small>/ ночь (2 чел)</small></div>
+          <div class="hprice">~280 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
         </div>
-        <div class="card-body">
+        <div class="hotel-body">
           <ul>
-            <li><span class="li-icon">📍</span> Лара, первая береговая линия</li>
-            <li><span class="li-icon">🍽️</span> Ultra All Inclusive, 10 ресторанов</li>
-            <li><span class="li-icon">🌊</span> Лагуна-бассейн 4300 м²</li>
-            <li><span class="li-icon">🎰</span> Казино, ночной клуб</li>
-            <li><span class="li-icon">🏋️</span> Тренажёрный зал, SPA</li>
+            <li>📍 Лара, 1-я береговая линия</li>
+            <li>🍽️ Ultra AI, 10 ресторанов</li>
+            <li>🌊 Лагуна-бассейн 4 300 м²</li>
+            <li>🎰 Казино, ночной клуб</li>
+            <li>🏋️ Тренажёрный зал, SPA</li>
           </ul>
-          <span class="tag best">🌊 Лучший пляж</span>
+          <span class="htag best">🌊 Лучший пляж</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header orange">
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#FF6F00,#FF8F00)">
           <div class="stars">★★★★☆</div>
-          <h3>Crystal Sunset Luxury Resort</h3>
-          <div class="price">~180 000 ₸ <small>/ ночь (2 чел)</small></div>
+          <h3>Crystal Sunset Luxury</h3>
+          <div class="hprice">~180 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
         </div>
-        <div class="card-body">
+        <div class="hotel-body">
           <ul>
-            <li><span class="li-icon">📍</span> Сиде, 50 м до пляжа</li>
-            <li><span class="li-icon">🍽️</span> All Inclusive, 5 ресторанов</li>
-            <li><span class="li-icon">🏊</span> 3 бассейна, аквапарк</li>
-            <li><span class="li-icon">🎉</span> Анимация, вечерние программы</li>
-            <li><span class="li-icon">💆</span> SPA-центр, хаммам</li>
+            <li>📍 Сиде, 50 м до пляжа</li>
+            <li>🍽️ All Inclusive, 5 ресторанов</li>
+            <li>🏊 3 бассейна, аквапарк</li>
+            <li>🎉 Анимация, вечерние программы</li>
+            <li>💆 SPA-центр, хаммам</li>
           </ul>
-          <span class="tag hot">🔥 Лучшее соотношение цена/качество</span>
+          <span class="htag hot">🔥 Цена/качество</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header purple">
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#6A1B9A,#9C27B0)">
           <div class="stars">★★★★★</div>
-          <h3>Regnum Carya Golf & Spa</h3>
-          <div class="price">~350 000 ₸ <small>/ ночь (2 чел)</small></div>
+          <h3>Conrad Maldives Rangali</h3>
+          <div class="hprice">~850 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
         </div>
-        <div class="card-body">
+        <div class="hotel-body">
           <ul>
-            <li><span class="li-icon">📍</span> Белек, сосновый лес + море</li>
-            <li><span class="li-icon">⛳</span> Гольф 36 лунок + Ultra AI</li>
-            <li><span class="li-icon">🏊</span> 5 бассейнов, частный пляж</li>
-            <li><span class="li-icon">💆</span> Luxury SPA 4000 м²</li>
-            <li><span class="li-icon">🍷</span> Sommelier bar, wine cellar</li>
+            <li>📍 Ари Атолл, Мальдивы</li>
+            <li>🍽️ FB + ужины в ресторанах</li>
+            <li>🤿 Подводный ресторан Ithaa</li>
+            <li>🛶 Вилла на воде с бассейном</li>
+            <li>🐠 Дайвинг-центр, снорклинг</li>
           </ul>
-          <span class="tag">🏌️ Для любителей гольфа</span>
+          <span class="htag best">🌊 Мальдивы</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <div class="stars">★★★★☆</div>
-          <h3>Delphin Diva Premier</h3>
-          <div class="price">~160 000 ₸ <small>/ ночь (2 чел)</small></div>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li><span class="li-icon">📍</span> Лара, 2-я береговая линия</li>
-            <li><span class="li-icon">🍽️</span> All Inclusive+</li>
-            <li><span class="li-icon">🎡</span> Аквапарк на территории</li>
-            <li><span class="li-icon">🎯</span> Стрельба из лука, водный спорт</li>
-            <li><span class="li-icon">🎵</span> Живая музыка каждый вечер</li>
-          </ul>
-          <span class="tag hot">💸 Бюджетный 5★</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header green">
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#E53935,#F44336)">
           <div class="stars">★★★★★</div>
-          <h3>Kempinski Hotel The Dome</h3>
-          <div class="price">~290 000 ₸ <small>/ ночь (2 чел)</small></div>
+          <h3>Atlantis The Palm Dubai</h3>
+          <div class="hprice">~420 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
         </div>
-        <div class="card-body">
+        <div class="hotel-body">
           <ul>
-            <li><span class="li-icon">📍</span> Белек, прямо на пляже</li>
-            <li><span class="li-icon">🏛️</span> Архитектура в стиле Ottoman</li>
-            <li><span class="li-icon">🍽️</span> Ultra All Inclusive, 8 ресторанов</li>
-            <li><span class="li-icon">🤿</span> Дайвинг-центр, водные лыжи</li>
-            <li><span class="li-icon">🌴</span> Тропический сад</li>
+            <li>📍 Пальм Джумейра, Дубай</li>
+            <li>🍽️ BB/HB/AI опции</li>
+            <li>🎡 Aquaventure Waterpark включён</li>
+            <li>🐬 Dolphin Bay, аквариум</li>
+            <li>🍽️ 20 ресторанов, ночные клубы</li>
           </ul>
-          <span class="tag best">🏛️ Лучший стиль</span>
+          <span class="htag hot">🏙️ Дубай</span>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-head" style="background:linear-gradient(135deg,#00838F,#00ACC1)">
+          <div class="stars">★★★★★</div>
+          <h3>Anantara Kihavah Maldives</h3>
+          <div class="hprice">~1 200 000 ₸ <small style="font-size:.8rem;font-weight:400">/ ночь (2 чел)</small></div>
+        </div>
+        <div class="hotel-body">
+          <ul>
+            <li>📍 Баа Атолл, Мальдивы</li>
+            <li>🍽️ AI с алкоголем</li>
+            <li>🔭 Обсерватория на воде</li>
+            <li>🛶 Вилла Over Water с горкой</li>
+            <li>🤿 House Reef без доплаты</li>
+          </ul>
+          <span class="htag best">💎 Люкс</span>
         </div>
       </div>
 
     </div>
-    <p style="margin-top:18px; font-size:0.85rem; color:#888;">* Бронируйте на: booking.com, hotels.com, pegas.kz, coral.kz, tui.kz. В июле советуем бронировать за 3–4 месяца.</p>
+    <p style="margin-top:16px;font-size:.82rem;color:#888">* Бронируйте на: booking.com · hotels.com · pegas.kz · coral.kz · tui.kz · В июле бронируйте за 3–4 месяца</p>
   </div>
 </section>
+</div>
 
-<!-- BUDGET -->
-<section style="background: #f0fbfc; padding: 56px 0;">
-  <div class="container">
-    <h2><span class="icon">💰</span> Примерный бюджет на 2 человек, 7 ночей</h2>
-    <div class="divider"></div>
-    <table class="budget-table">
-      <thead>
-        <tr>
-          <th>Статья расходов</th>
-          <th>Детали</th>
-          <th style="text-align:right">Сумма (₸)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>✈️ Авиабилеты (2 чел, туда-обратно)</td>
-          <td>Air Astana / Turkish Airlines</td>
-          <td class="budget-amount">170 000 – 200 000</td>
-        </tr>
-        <tr>
-          <td>🏨 Отель 5★ All Inclusive (7 ночей)</td>
-          <td>Crystal Sunset / Delphin Diva</td>
-          <td class="budget-amount">1 120 000 – 1 400 000</td>
-        </tr>
-        <tr>
-          <td>🚖 Трансфер аэропорт ↔ отель</td>
-          <td>Shared transfer × 2</td>
-          <td class="budget-amount">20 000 – 35 000</td>
-        </tr>
-        <tr>
-          <td>🎫 Экскурсии (2–3 экскурсии)</td>
-          <td>Памуккале, Эфес, Каньоны</td>
-          <td class="budget-amount">60 000 – 100 000</td>
-        </tr>
-        <tr>
-          <td>🛍️ Шоппинг и сувениры</td>
-          <td>Рынок, ТЦ MarkAntalya</td>
-          <td class="budget-amount">50 000 – 150 000</td>
-        </tr>
-        <tr>
-          <td>🍦 Карманные расходы</td>
-          <td>Кафе вне отеля, мороженое, доп.</td>
-          <td class="budget-amount">30 000 – 50 000</td>
-        </tr>
-        <tr>
-          <td>🏥 Страховка (2 чел)</td>
-          <td>ВЗР с покрытием €30 000</td>
-          <td class="budget-amount">15 000 – 25 000</td>
-        </tr>
-        <tr class="budget-total">
-          <td><strong>ИТОГО</strong></td>
-          <td><strong>Бюджет 4★ вариант</strong></td>
-          <td class="budget-amount"><strong>1 465 000 – 1 960 000 ₸</strong></td>
-        </tr>
-      </tbody>
-    </table>
-    <p style="margin-top:18px; font-size:0.85rem; color:#888;">* ~$3 200 – $4 300 USD на двоих. Курс: 1 USD ≈ 450 ₸ (июнь 2026). При All Inclusive основные расходы — перелёт и отель.</p>
-  </div>
-</section>
-
-<!-- CHECKLIST -->
-<section>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: ЧЕК-ЛИСТ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-checklist" class="sec-panel">
+<section style="padding:50px 0">
   <div class="container">
     <h2><span class="icon">✅</span> Чек-лист путешественника</h2>
     <div class="divider"></div>
-
-    <div style="background: #fff3cd; border-left: 4px solid #FF8F00; border-radius: 8px; padding: 14px 18px; margin-bottom: 28px; font-size: 0.92rem;">
-      ⚡ <strong>Совет:</strong> Отмечайте пункты по мере сборов — прогресс сохраняется в браузере!
+    <div style="background:#fff3cd;border-left:4px solid #FF8F00;border-radius:8px;padding:12px 16px;margin-bottom:22px;font-size:.9rem">
+      💾 <strong>Галочки сохраняются автоматически</strong> в вашем браузере
     </div>
-
-    <div id="progress-section" class="progress-wrap" style="margin-bottom: 28px;">
-      <div class="progress-label">
-        <span>Готовность к поездке</span>
-        <span id="progress-text">0 / 0</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-      </div>
+    <div class="progress-wrap">
+      <div class="progress-lbl"><span>Готовность к поездке</span><span id="prog-txt">0 / 0</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
-
-    <div class="checklist-grid">
-
-      <div class="checklist-category docs">
-        <h4>📄 Документы</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">Загранпаспорт (срок > 6 мес после поездки)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">Виза (гражданам РК — не нужна до 90 дней)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">Распечатать билеты авиа (2 экз.)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">Ваучер на отель (распечатать)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">Страховой полис ВЗР</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6">Копии всех документов (в облако)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7">Водительские права (для аренды авто)</label></div>
+    <div class="cl-grid">
+      <div class="cl-cat">
+        <h4 style="background:#0097A7">📄 Документы</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="d1"><label for="d1">Загранпаспорт (срок > 6 мес)</label></div>
+          <div class="cl-item"><input type="checkbox" id="d2"><label for="d2">Виза (уточните по направлению)</label></div>
+          <div class="cl-item"><input type="checkbox" id="d3"><label for="d3">Распечатать авиабилеты (2 экз.)</label></div>
+          <div class="cl-item"><input type="checkbox" id="d4"><label for="d4">Ваучер на отель / тур</label></div>
+          <div class="cl-item"><input type="checkbox" id="d5"><label for="d5">Страховой полис ВЗР</label></div>
+          <div class="cl-item"><input type="checkbox" id="d6"><label for="d6">Копии документов в облако</label></div>
+          <div class="cl-item"><input type="checkbox" id="d7"><label for="d7">Вод. права (для аренды авто)</label></div>
         </div>
       </div>
-
-      <div class="checklist-category clothes">
-        <h4>👗 Одежда</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8">Купальники / плавки (2–3 шт)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9">Лёгкие шорты (3–4 шт)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10">Футболки и майки (5–6 шт)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c11"><label for="c11">Лёгкое платье / рубашка на вечер</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c12"><label for="c12">Парео / пляжное полотенце</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c13"><label for="c13">Сланцы и удобные сандалии</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c14"><label for="c14">Лёгкая кофта (для кондиционера)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c15"><label for="c15">Шляпа / панама</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#FF6F00">👗 Одежда</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl8"><label for="cl8">Купальники / плавки (2–3 шт)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl9"><label for="cl9">Шорты лёгкие (3–4 шт)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl10"><label for="cl10">Футболки и майки (5–6 шт)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl11"><label for="cl11">Вечерняя одежда (платье / рубашка)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl12"><label for="cl12">Парео / пляжное полотенце</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl13"><label for="cl13">Сланцы и удобные сандалии</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl14"><label for="cl14">Лёгкая кофта (для кондиционера)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl15"><label for="cl15">Шляпа / панама</label></div>
         </div>
       </div>
-
-      <div class="checklist-category health">
-        <h4>💊 Здоровье и аптечка</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c16"><label for="c16">Солнцезащитный крем SPF 50+</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c17"><label for="c17">Крем после загара / алоэ</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c18"><label for="c18">Таблетки от расстройства желудка</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c19"><label for="c19">Жаропонижающее / обезболивающее</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c20"><label for="c20">Антигистаминные (от укусов/аллергии)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c21"><label for="c21">Пластыри, бинт, антисептик</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c22"><label for="c22">Репеллент от комаров</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c23"><label for="c23">Таблетки от укачивания (если нужны)</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#E53935">💊 Аптечка</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl16"><label for="cl16">Солнцезащитный крем SPF 50+</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl17"><label for="cl17">Крем после загара / алоэ</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl18"><label for="cl18">Таблетки от расстройства желудка</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl19"><label for="cl19">Жаропонижающее / обезболивающее</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl20"><label for="cl20">Антигистаминные</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl21"><label for="cl21">Пластыри, бинт, антисептик</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl22"><label for="cl22">Репеллент от комаров</label></div>
         </div>
       </div>
-
-      <div class="checklist-category tech">
-        <h4>📱 Техника</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c24"><label for="c24">Телефон + зарядное устройство</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c25"><label for="c25">Power bank (10 000+ мАч)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c26"><label for="c26">Наушники (для самолёта)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c27"><label for="c27">Фотоаппарат / экшн-камера GoPro</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c28"><label for="c28">Переходник для розеток (тип F, Турция)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c29"><label for="c29">Скачать карты offline (Google Maps)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c30"><label for="c30">Купить eSIM / местную SIM (Turkcell)</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#5E35B1">📱 Техника</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl23"><label for="cl23">Телефон + зарядное</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl24"><label for="cl24">Power bank (10 000+ мАч)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl25"><label for="cl25">Наушники (для самолёта)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl26"><label for="cl26">Фотоаппарат / GoPro</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl27"><label for="cl27">Переходник для розеток</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl28"><label for="cl28">Карты offline (Google Maps)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl29"><label for="cl29">eSIM / местная SIM-карта</label></div>
         </div>
       </div>
-
-      <div class="checklist-category money">
-        <h4>💳 Деньги</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c31"><label for="c31">Обменять валюту ($ USD предпочтительнее)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c32"><label for="c32">Карта Visa/MC (не все принимают)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c33"><label for="c33">Уведомить банк о поездке за рубеж</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c34"><label for="c34">Наличные турецкие лиры (TRY) на рынок</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c35"><label for="c35">Установить лимиты на карту</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#2E7D32">💳 Деньги</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl30"><label for="cl30">Обменять валюту (USD/EUR)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl31"><label for="cl31">Карта Visa/Mastercard</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl32"><label for="cl32">Уведомить банк о поездке</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl33"><label for="cl33">Местная валюта на рынок</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl34"><label for="cl34">Установить лимиты на карту</label></div>
         </div>
       </div>
-
-      <div class="checklist-category beach">
-        <h4>🏖️ Пляж и море</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c36"><label for="c36">Водонепроницаемый чехол для телефона</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c37"><label for="c37">Очки для плавания / маска</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c38"><label for="c38">Надувной матрас / круг (или арендовать)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c39"><label for="c39">Солнечные очки (UV400)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c40"><label for="c40">Сумка-шоппер на пляж</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c41"><label for="c41">Водная бутылка (на пляж)</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#00838F">🏖️ Пляж</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl35"><label for="cl35">Водонепроницаемый чехол для телефона</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl36"><label for="cl36">Очки для плавания / маска</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl37"><label for="cl37">Солнечные очки UV400</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl38"><label for="cl38">Сумка-шоппер на пляж</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl39"><label for="cl39">Водная бутылка</label></div>
         </div>
       </div>
-
-      <div class="checklist-category misc">
-        <h4>🧳 Разное</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c42"><label for="c42">Косметичка: шампунь, дезодорант и т.д.</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c43"><label for="c43">Влажные салфетки (в самолёт)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c44"><label for="c44">Маска для сна + беруши (в самолёт)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c45"><label for="c45">Замок на чемодан (TSA)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c46"><label for="c46">Распечатать маршрут + контакты отеля</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c47"><label for="c47">Оставить ключи/животных соседям</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c48"><label for="c48">Онлайн-регистрация на рейс (за 24 ч)</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#6D4C41">🧳 До отъезда</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl40"><label for="cl40">Подтвердить бронь отеля</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl41"><label for="cl41">Заказать трансфер из аэропорта</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl42"><label for="cl42">Онлайн-регистрация на рейс (за 24 ч)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl43"><label for="cl43">Выключить воду, газ, утюг</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl44"><label for="cl44">Зарядить все устройства</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl45"><label for="cl45">Приехать в аэропорт за 3 часа</label></div>
         </div>
       </div>
-
-      <div class="checklist-category kids">
-        <h4>📋 До отъезда</h4>
-        <div class="checklist-items">
-          <div class="checklist-item"><input type="checkbox" id="c49"><label for="c49">Подтвердить бронь отеля</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c50"><label for="c50">Заказать трансфер из аэропорта</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c51"><label for="c51">Скачать приложение отеля / Booking</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c52"><label for="c52">Предупредить соседей (квартира)</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c53"><label for="c53">Выключить воду, газ, утюг</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c54"><label for="c54">Зарядить все устройства</label></div>
-          <div class="checklist-item"><input type="checkbox" id="c55"><label for="c55">Приехать в аэропорт за 3 часа</label></div>
+      <div class="cl-cat">
+        <h4 style="background:#F06292">🧴 Косметика</h4>
+        <div class="cl-items">
+          <div class="cl-item"><input type="checkbox" id="cl46"><label for="cl46">Шампунь, кондиционер (мини)</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl47"><label for="cl47">Зубная щётка и паста</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl48"><label for="cl48">Дезодорант</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl49"><label for="cl49">Влажные салфетки</label></div>
+          <div class="cl-item"><input type="checkbox" id="cl50"><label for="cl50">Маска для сна + беруши</label></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
+</div>
 
-<!-- TIPS -->
-<section style="background: #f0fbfc; padding: 56px 0;">
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: БЮДЖЕТ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-budget" class="sec-panel">
+<section style="background:#f0fbfc;padding:50px 0">
+  <div class="container">
+    <h2><span class="icon">💰</span> Бюджет на 2 человек, 7 ночей</h2>
+    <div class="divider"></div>
+    <table class="budget-tbl">
+      <thead><tr><th>Статья</th><th>Детали</th><th style="text-align:right">Сумма (₸)</th></tr></thead>
+      <tbody>
+        <tr><td>✈️ Авиабилеты (2 чел, туда-обратно)</td><td>Air Astana + TK</td><td class="ba">170 000 – 200 000</td></tr>
+        <tr><td>🏨 Отель 5★ All Inclusive (7 ночей)</td><td>Crystal / Delphin</td><td class="ba">1 120 000 – 1 400 000</td></tr>
+        <tr><td>📦 Готовый пакет (тур-оператор)</td><td>Pegas / Coral / TUI</td><td class="ba">900 000 – 1 500 000</td></tr>
+        <tr><td>🚖 Трансфер аэропорт ↔ отель</td><td>Shared × 2</td><td class="ba">20 000 – 35 000</td></tr>
+        <tr><td>🎫 Экскурсии (2–3)</td><td>Памуккале, рафтинг, яхта</td><td class="ba">60 000 – 100 000</td></tr>
+        <tr><td>🛍️ Шоппинг и сувениры</td><td>Рынок, ТЦ</td><td class="ba">50 000 – 150 000</td></tr>
+        <tr><td>🍦 Карманные расходы</td><td>Кафе, напитки, доп.</td><td class="ba">30 000 – 50 000</td></tr>
+        <tr><td>🏥 Страховка (2 чел)</td><td>ВЗР €30 000</td><td class="ba">15 000 – 25 000</td></tr>
+        <tr><td><strong>ИТОГО (самостоятельно)</strong></td><td><strong>перелёт + отель отдельно</strong></td><td class="ba total"><strong>1 465 000 – 1 960 000 ₸</strong></td></tr>
+        <tr><td><strong>ИТОГО (тур-пакет)</strong></td><td><strong>всё включено у оператора</strong></td><td class="ba total"><strong>900 000 – 1 500 000 ₸</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px;font-size:.82rem;color:#888">* ~$2 000–$4 300 USD на двоих. Курс: 1 USD ≈ 450 ₸. Тур-пакет, как правило, дешевле самостоятельной поездки на 15–25%.</p>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TAB: СОВЕТЫ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="tab-tips" class="sec-panel">
+<section style="padding:50px 0">
   <div class="container">
     <h2><span class="icon">💡</span> Полезные советы</h2>
     <div class="divider"></div>
     <div class="tips-grid">
-      <div class="tip-card">
-        <div class="tip-icon">🛂</div>
-        <h4>Виза не нужна</h4>
-        <p>Граждане Казахстана могут въезжать в Турцию без визы до 90 дней</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">💱</div>
-        <h4>Валюта</h4>
-        <p>Везите доллары или евро — обменяйте на лиры прямо в Анталье по лучшему курсу</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🚖</div>
-        <h4>Трансфер</h4>
-        <p>Заказывайте заранее на halatransfer.com или через отель — дешевле такси</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🌡️</div>
-        <h4>Акклиматизация</h4>
-        <p>В первые 2 дня ограничьте время на солнце — июльская жара +36°C непривычна</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🦟</div>
-        <h4>Комары</h4>
-        <p>Берите репеллент — в июле комары активны особенно рядом с водоёмами</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🛍️</div>
-        <h4>Торг</h3>
-        <p>На базарах торгуйтесь! Начальная цена завышена в 2–3 раза — это норма</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🍦</div>
-        <h4>Вода</h4>
-        <p>Пейте только бутилированную воду. Из крана — только для чистки зубов</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">📡</div>
-        <h4>Интернет</h4>
-        <p>eSIM — лучший вариант. Turkcell Tourist SIM: ~$15 за 10 ГБ на 7 дней</p>
-      </div>
-      <div class="tip-card">
-        <div class="tip-icon">🏥</div>
-        <h4>Страховка</h4>
-        <p>Обязательно! Медпомощь без страховки очень дорогая. Минимум €30 000 покрытие</p>
-      </div>
+      <div class="tip"><div class="tico">🛂</div><h4>Виза РК→Турция</h4><p>Не нужна до 90 дней. В Египет, Мальдивы — виза по прилёту или e-visa</p></div>
+      <div class="tip"><div class="tico">💱</div><h4>Валюта</h4><p>Везите USD/EUR — обменяйте на месте. Турецкие лиры лучший курс в Анталье</p></div>
+      <div class="tip"><div class="tico">🚖</div><h4>Трансфер</h4><p>Бронируйте заранее на halatransfer.com или через тур-оператора — дешевле такси в 2–3 раза</p></div>
+      <div class="tip"><div class="tico">📦</div><h4>Тур-пакет выгоднее</h4><p>Готовый тур у оператора на 15–25% дешевле, чем перелёт + отель по отдельности</p></div>
+      <div class="tip"><div class="tico">🌡️</div><h4>Акклиматизация</h4><p>Первые 2 дня ограничьте время на солнце — июльский +36°C непривычен после Алматы</p></div>
+      <div class="tip"><div class="tico">🦟</div><h4>Комары</h4><p>В июле активны — берите репеллент, особенно для вечерних прогулок</p></div>
+      <div class="tip"><div class="tico">🛍️</div><h4>Торг на базаре</h4><p>Начальная цена завышена в 2–3 раза. Торгуйтесь смело — это часть культуры</p></div>
+      <div class="tip"><div class="tico">💧</div><h4>Вода</h4><p>Только бутилированная. Из крана — исключительно для чистки зубов</p></div>
+      <div class="tip"><div class="tico">📡</div><h4>Интернет</h4><p>eSIM — лучший вариант. Turkcell Tourist SIM ~$15 за 10 ГБ / 7 дней</p></div>
+      <div class="tip"><div class="tico">🏥</div><h4>Страховка</h4><p>Обязательна! Без страховки медпомощь очень дорогая. Минимум €30 000 покрытие</p></div>
+      <div class="tip"><div class="tico">⏰</div><h4>Бронируйте заранее</h4><p>Июль — высокий сезон. Отели и туры на июль 2026 лучше брать уже сейчас</p></div>
+      <div class="tip"><div class="tico">🧴</div><h4>Крем SPF 50+</h4><p>Обязателен. Купите дома — в курортных магазинах он дороже в 2–3 раза</p></div>
     </div>
   </div>
 </section>
+</div>
 
-<!-- EXCURSIONS -->
-<section>
-  <div class="container">
-    <h2><span class="icon">🗺️</span> Топ экскурсии из Антальи</h2>
-    <div class="divider"></div>
-    <div class="cards cards-2">
-
-      <div class="card">
-        <div class="card-header">
-          <h3>🏛️ Памуккале + Иераполис</h3>
-          <div class="price">~15 000 ₸ <small>/ чел</small></div>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li><span class="li-icon">⏱️</span> Целый день (12–14 часов)</li>
-            <li><span class="li-icon">🌊</span> Белоснежные травертины и термальные бассейны</li>
-            <li><span class="li-icon">🏛️</span> Античный город Иераполис, некрополь</li>
-            <li><span class="li-icon">🚌</span> Трансфер из отеля включён</li>
-          </ul>
-          <span class="tag best">⭐ Must see</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header orange">
-          <h3>🏔️ Каньон Кёпрюлю + Рафтинг</h3>
-          <div class="price">~12 000 ₸ <small>/ чел</small></div>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li><span class="li-icon">⏱️</span> Полдня (5–6 часов)</li>
-            <li><span class="li-icon">🌊</span> Рафтинг по реке Köprüçay</li>
-            <li><span class="li-icon">🌲</span> Таврские горы, древний мост</li>
-            <li><span class="li-icon">🍽️</span> Обед форелью у реки</li>
-          </ul>
-          <span class="tag hot">🔥 Адреналин</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header green">
-          <h3>🚢 Яхтенный тур по бухтам</h3>
-          <div class="price">~10 000 ₸ <small>/ чел</small></div>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li><span class="li-icon">⏱️</span> Целый день (8–9 часов)</li>
-            <li><span class="li-icon">🌊</span> 5–6 бухт, купание, снорклинг</li>
-            <li><span class="li-icon">🍽️</span> Обед и напитки на борту</li>
-            <li><span class="li-icon">🎶</span> Музыка, дискотека на закате</li>
-          </ul>
-          <span class="tag best">⛵ Романтика</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header purple">
-          <h3>🏛️ Эфес + Дом Девы Марии</h3>
-          <div class="price">~18 000 ₸ <small>/ чел</small></div>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li><span class="li-icon">⏱️</span> Целый день (12–14 часов)</li>
-            <li><span class="li-icon">🏛️</span> Лучший античный город Турции</li>
-            <li><span class="li-icon">⛪</span> Дом Девы Марии, Базилика Иоанна</li>
-            <li><span class="li-icon">🛍️</span> Шоппинг в Кушадасы</li>
-          </ul>
-          <span class="tag">🏛️ История</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <div style="font-size:2rem; margin-bottom: 12px;">🌊 ☀️ ✈️</div>
-  <p><strong>Хорошего отпуска в Турции!</strong></p>
-  <p style="margin-top: 8px;">Алматы → Анталья · Июль 2026 · 2 человека · 7 ночей</p>
-  <p style="margin-top: 16px; font-size: 0.8rem; opacity: 0.6;">Цены ориентировочные · Для бронирования используйте: aviasales.kz · booking.com · pegas.kz · coral.kz</p>
+  <div style="font-size:2rem;margin-bottom:10px">🌍 ✈️ ☀️</div>
+  <p><strong>Планировщик отпуска из Алматы · Июль 2026</strong></p>
+  <p style="margin-top:6px">Бронирование: aviasales.kz · booking.com · pegas.kz · coral.kz · tui.kz</p>
 </footer>
 
+<!-- ═══════════════════════════════════════════════ -->
+<!-- JAVASCRIPT -->
+<!-- ═══════════════════════════════════════════════ -->
 <script>
-  // Checklist progress
-  function updateProgress() {
-    const checkboxes = document.querySelectorAll('.checklist-item input[type=checkbox]');
-    const checked = document.querySelectorAll('.checklist-item input[type=checkbox]:checked');
-    const pct = checkboxes.length ? Math.round(checked.length / checkboxes.length * 100) : 0;
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('progress-text').textContent = checked.length + ' / ' + checkboxes.length;
+// ── TAB NAVIGATION ──────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.sec-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = ['tab-dest','tab-tours','tab-flights','tab-hotels','tab-checklist','tab-budget','tab-tips'].indexOf(id);
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-    // Save to localStorage
-    const state = {};
-    checkboxes.forEach(cb => { state[cb.id] = cb.checked; });
-    localStorage.setItem('turkey_checklist', JSON.stringify(state));
+// ── DESTINATION DATA ─────────────────────────────
+const destinations = {
+  turkey: {
+    antalya:    { emoji:'🏖️', name:'Анталья',    desc:'Ривьера Турции · пляжи Лара и Коньяалты', price:'от 85 000 ₸/чел', color:'#0097A7',
+      info:'<h3>✈️ Анталья (AYT)</h3><p style="margin:8px 0;color:#666">Столица турецкого туризма. Великолепные пляжи, множество отелей 5★ All Inclusive, аквапарки, экскурсии в Памуккале и Каппадокию.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +35–38°C, море +28°C</li><li>✈️ Лёт: ~9 ч 45 мин (с пересадкой)</li><li>💰 Тур от ~900 000 ₸ на 2 чел</li><li>🏨 Белек, Лара, Кемер, Сиде</li><li>🛂 Виза не нужна</li></ul>' },
+    istanbul:   { emoji:'🕌', name:'Стамбул',    desc:'Мегаполис двух континентов · история', price:'от 75 000 ₸/чел', color:'#E53935',
+      info:'<h3>✈️ Стамбул (IST)</h3><p style="margin:8px 0;color:#666">Культурная столица Турции — Айя-София, Гранд Базар, Босфор, хаммамы и бесконечная кухня. Идеально для сити-трипа 4–5 дней.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +28–32°C</li><li>✈️ Лёт: ~8 ч (с пересадкой)</li><li>💰 Тур от ~600 000 ₸ на 2 чел</li><li>🏨 Sultanahmet, Beyoğlu, Karaköy</li><li>🛂 Виза не нужна</li></ul>' },
+    bodrum:     { emoji:'⛵', name:'Бодрум',     desc:'Яхты, бирюзовые бухты · ночная жизнь', price:'от 90 000 ₸/чел', color:'#00838F',
+      info:'<h3>✈️ Бодрум (BJV)</h3><p style="margin:8px 0;color:#666">Эгейский курорт с бирюзовыми бухтами, яхтенным туризмом и знаменитой ночной жизнью. Яхт-туры по бухтам — must-do.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +32–36°C, море +26°C</li><li>✈️ Лёт: ~10 ч (с пересадкой)</li><li>💰 Тур от ~950 000 ₸ на 2 чел</li></ul>' },
+    alanya:     { emoji:'🌊', name:'Аланья',     desc:'Красная башня · доступный курорт', price:'от 80 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🌊 Аланья</h3><p style="margin:8px 0;color:#666">Бюджетный курорт с длинными пляжами, средневековой крепостью и знаменитыми пещерами. Популярен среди казахстанских туристов.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +34–37°C, море +28°C</li><li>💰 Тур от ~850 000 ₸ на 2 чел</li><li>🏰 Крепость Аланья, пещера Дамлаташ</li></ul>' },
+    cappadocia: { emoji:'🎈', name:'Каппадокия', desc:'Воздушные шары · сказочный пейзаж', price:'от 95 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🎈 Каппадокия (NAV/KYA)</h3><p style="margin:8px 0;color:#666">Волшебный регион с каменными грибами, подземными городами и полётами на воздушных шарах на рассвете — незабываемый опыт.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +28–33°C</li><li>🎈 Полёт на шаре: ~€200/чел</li><li>💰 Тур от ~700 000 ₸ на 2 чел</li></ul>' },
+    fethiye:    { emoji:'🏔️', name:'Фетхие',    desc:'Мёртвое море · ликийская тропа', price:'от 88 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>🏔️ Фетхие (FBM/DLM)</h3><p style="margin:8px 0;color:#666">Изумрудная лагуна Олюдениз (Мёртвое море) — одно из красивейших мест в мире. Параглайдинг, яхты, Ликийская тропа.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +33–37°C, море +28°C</li><li>🪂 Параглайдинг: ~€80/чел</li><li>💰 Тур от ~900 000 ₸ на 2 чел</li></ul>' },
+    belek:      { emoji:'⛳', name:'Белек',      desc:'Гольф + 5★ курорты · Rixos', price:'от 100 000 ₸/чел', color:'#1565C0',
+      info:'<h3>⛳ Белек</h3><p style="margin:8px 0;color:#666">Самый элитный курорт Антальи — Rixos Premium, Regnum Carya, Kempinski. Сосновые леса прямо до пляжа, лучшие гольф-поля Европы.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +35–38°C, море +28°C</li><li>🏨 Rixos, Regnum, Kempinski, Maxx Royal</li><li>💰 Тур от ~1 300 000 ₸ на 2 чел</li></ul>' },
+    marmaris:   { emoji:'🛥️', name:'Мармарис',  desc:'Яхты · голубой круиз · дискотеки', price:'от 88 000 ₸/чел', color:'#00838F',
+      info:'<h3>🛥️ Мармарис (DLM)</h3><p style="margin:8px 0;color:#666">Морской курорт с огромной мариной, базой для голубых круизов и активной ночной жизнью. Паром на греческий остров Родос — 45 минут.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +33–36°C</li><li>⛵ Голубой круиз: от ~€600/неделю</li><li>💰 Тур от ~900 000 ₸ на 2 чел</li></ul>' },
+  },
+  maldives: {
+    male: { emoji:'🐠', name:'Мале Атолл', desc:'Бюджетные резорты · гестхаусы', price:'от 200 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🐠 Мале Атолл</h3><p style="margin:8px 0;color:#666">Самый доступный атолл. Много бюджетных гестхаусов и 3-4★ резортов. Отличный снорклинг, пляжи и экскурсии на соседние острова.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–31°C, море +29°C</li><li>✈️ Лёт: ~10–12 ч через Дубай/Доху</li><li>💰 Тур от ~1 800 000 ₸ на 2 чел</li><li>🛂 Виза по прилёту бесплатно</li></ul>' },
+    baa: { emoji:'🌊', name:'Баа Атолл', desc:'ЮНЕСКО биосфера · китовые акулы', price:'от 350 000 ₸/чел', color:'#1565C0',
+      info:'<h3>🌊 Баа Атолл (UNESCO)</h3><p style="margin:8px 0;color:#666">Заповедная зона UNESCO. Anantara Kihavah, Four Seasons. Сезон китовых акул и скатов-манта — июнь–ноябрь.</p><ul style="list-style:none;margin-top:12px"><li>🤿 Лучший дайвинг в мире</li><li>💰 Тур от ~3 500 000 ₸ на 2 чел</li><li>🛶 Виллы Over Water</li></ul>' },
+    ari: { emoji:'🤿', name:'Ари Атолл', desc:'Conrad · дайвинг-рай', price:'от 280 000 ₸/чел', color:'#00838F',
+      info:'<h3>🤿 Ари Атолл</h3><p style="margin:8px 0;color:#666">Conrad Maldives Rangali с подводным рестораном, великолепный дайвинг, снорклинг с мантами.</p>' },
+    noonu: { emoji:'🌴', name:'Нуну Атолл', desc:'Velaa · секретное место', price:'от 400 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>🌴 Нуну Атолл</h3><p style="margin:8px 0;color:#666">Один из самых отдалённых и нетронутых атоллов. Velaa Private Island — эксклюзивный отдых без толп туристов.</p>' },
+  },
+  thailand: {
+    phuket: { emoji:'🏝️', name:'Пхукет', desc:'Паттонг · белые пляжи · тайский массаж', price:'от 130 000 ₸/чел', color:'#E53935',
+      info:'<h3>🏝️ Пхукет (HKT)</h3><p style="margin:8px 0;color:#666">Самый большой остров Таиланда. Пляжи Карон, Ката, Патонг. Тайская кухня, массаж, ночной рынок, экскурсии на острова.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +29–33°C (сезон дождей, но тепло)</li><li>✈️ Лёт: ~11–14 ч через Дубай/БКК</li><li>💰 Тур от ~1 200 000 ₸ на 2 чел</li><li>🛂 Виза — электронная eTA</li></ul>' },
+    samui: { emoji:'🌺', name:'Самуи', desc:'Кокосовые пальмы · спа · рай', price:'от 150 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🌺 Самуи (USM)</h3><p style="margin:8px 0;color:#666">Элитный остров с роскошными виллами, СПА-курортами и кристально чистыми бухтами. Mentalée, Big Buddha, тайские рынки.</p>' },
+    pattaya: { emoji:'🎡', name:'Паттайя', desc:'Пляж Джомтьен · развлечения', price:'от 110 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🎡 Паттайя (UTP)</h3><p style="margin:8px 0;color:#666">Курорт для активного отдыха. Аквапарки, дайвинг, шоу, пляж Джомтьен. Близко к Бангкоку — удобно сочетать.</p>' },
+    krabi: { emoji:'🏔️', name:'Краби', desc:'Скалы-известняки · острова Пхи-Пхи', price:'от 140 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🏔️ Краби (KBV)</h3><p style="margin:8px 0;color:#666">Сказочные известняковые скалы, изумрудные воды, острова Пхи-Пхи, каяки. Один из самых живописных курортов мира.</p>' },
+  },
+  egypt: {
+    sharm: { emoji:'🤿', name:'Шарм-эль-Шейх', desc:'Коралловые рифы · Red Sea', price:'от 80 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🤿 Шарм-эль-Шейх (SSH)</h3><p style="margin:8px 0;color:#666">Дайвинг-рай в Красном море. Прозрачная вода круглый год. Naama Bay, бедуинские сафари в пустыне.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +38–42°C, море +27°C</li><li>✈️ Лёт: ~8–9 ч через Дубай/Каир</li><li>💰 Тур от ~750 000 ₸ на 2 чел</li><li>🛂 Виза по прилёту $25</li></ul>' },
+    hurghada: { emoji:'🌊', name:'Хургада', desc:'Масса отелей AI · Красное море', price:'от 70 000 ₸/чел', color:'#E53935',
+      info:'<h3>🌊 Хургада (HRG)</h3><p style="margin:8px 0;color:#666">Самое популярное направление для бюджетного отдыха. Сотни отелей AI, коралловые рифы, экскурсия в Луксор и Карнакский храм.</p>' },
+    cairo: { emoji:'🏛️', name:'Каир', desc:'Пирамиды Гизы · Сфинкс · история', price:'от 75 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🏛️ Каир (CAI)</h3><p style="margin:8px 0;color:#666">Пирамиды Гизы, Сфинкс, Египетский музей, старый Каир и базар Хан-эль-Халили. Сочетайте с Хургадой: 2–3 дня Каир + море.</p>' },
+  },
+  bali: {
+    seminyak: { emoji:'🌅', name:'Семиньяк', desc:'Закаты · рестораны · бутик-отели', price:'от 160 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🌅 Семиньяк, Бали</h3><p style="margin:8px 0;color:#666">Самый модный район Бали. Пляжные клубы, рестораны мирового уровня, бутик-отели. Знаменитые закаты у Potato Head.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +27–30°C (сухой сезон!)</li><li>✈️ Лёт: ~12–15 ч через Сингапур/КЛ</li><li>💰 Тур от ~1 300 000 ₸ на 2 чел</li><li>🛂 Виза по прилёту $35</li></ul>' },
+    ubud: { emoji:'🌿', name:'Убуд', desc:'Рисовые террасы · обезьяны · йога', price:'от 140 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>🌿 Убуд, Бали</h3><p style="margin:8px 0;color:#666">Культурное сердце Бали. Рисовые террасы Тегаллалан, лес обезьян, дворцы, йога-ретриты и аюрведа.</p>' },
+    nusadua: { emoji:'🏖️', name:'Нуса-Дуа', desc:'Роскошные курорты · голубые лагуны', price:'от 170 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🏖️ Нуса-Дуа, Бали</h3><p style="margin:8px 0;color:#666">Охраняемая курортная зона с пятизвёздочными отелями, белоснежными пляжами и спокойным морем — идеально для семей.</p>' },
+    uluwatu: { emoji:'🏄', name:'Улувату', desc:'Серфинг · храм на скале · закаты', price:'от 150 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🏄 Улувату, Бали</h3><p style="margin:8px 0;color:#666">Рай для сёрферов. Мистический храм Пура Лухур на краю обрыва, лучшие закаты острова, пляжные клубы Karma Kandara.</p>' },
+  },
+  georgia: {
+    tbilisi: { emoji:'🏙️', name:'Тбилиси', desc:'Старый город · хинкали · вино', price:'от 45 000 ₸/чел', color:'#E53935',
+      info:'<h3>🏙️ Тбилиси (TBS)</h3><p style="margin:8px 0;color:#666">Самобытная столица с серными банями, старым городом, крепостью Нарикала и потрясающей едой. Хинкали, хачапури, чача!</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +28–33°C</li><li>✈️ Лёт: ~4 ч прямой рейс</li><li>💰 Тур от ~400 000 ₸ на 2 чел</li><li>🛂 Виза не нужна</li></ul>' },
+    batumi: { emoji:'🌊', name:'Батуми', desc:'Черноморский курорт · аджарская кухня', price:'от 48 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🌊 Батуми (BUS)</h3><p style="margin:8px 0;color:#666">Черноморский курорт с казино, набережной Батуми Бульвар, ботаническим садом и горным регионом Аджария рядом.</p>' },
+    kazbegi: { emoji:'⛰️', name:'Казбеги', desc:'Горы · Гергети · треккинг', price:'от 50 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>⛰️ Казбеги (Степанцминда)</h3><p style="margin:8px 0;color:#666">Горное село у подножия Казбека. Церковь Гергети на фоне горы — одна из самых знаменитых фотографий Кавказа. Треккинг, джипы.</p>' },
+    kakheti: { emoji:'🍷', name:'Кахетия', desc:'Винный регион · монастыри', price:'от 46 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🍷 Кахетия</h3><p style="margin:8px 0;color:#666">Колыбель вина. Сигнахи — город любви, монастырь Алаверди, дегустации в погребах. Рвандские виноградники и природа Алазанской долины.</p>' },
+  },
+  spain: {
+    barcelona: { emoji:'🏟️', name:'Барселона', desc:'Гауди · пляж Барселонета · Рамбла', price:'от 180 000 ₸/чел', color:'#E53935',
+      info:'<h3>🏟️ Барселона (BCN)</h3><p style="margin:8px 0;color:#666">Сагrada Família, Park Güell, пляж Барселонета, Готический квартал, Camp Nou. Отличная еда и ночная жизнь.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +27–32°C, море +25°C</li><li>✈️ Лёт: ~11–13 ч через Москву/Стамбул</li><li>💰 Тур от ~1 500 000 ₸ на 2 чел</li><li>🛂 Шенгенская виза нужна</li></ul>' },
+    tenerife: { emoji:'🌋', name:'Тенерифе', desc:'Вулкан Тейде · Лас Америкас', price:'от 200 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🌋 Тенерифе (TFN/TFS)</h3><p style="margin:8px 0;color:#666">Крупнейший из Канарских островов. Чёрные и белые пляжи, вулкан Тейде (3 718 м), курорты Лас-Америкас и Коста-Адехе. Круглогодичное лето.</p>' },
+    mallorca: { emoji:'⛵', name:'Майорка', desc:'Яхты · горы Трамунтана · Пальма', price:'от 190 000 ₸/чел', color:'#0097A7',
+      info:'<h3>⛵ Майорка (PMI)</h3><p style="margin:8px 0;color:#666">Жемчужина Средиземноморья. Пальма-де-Майорка, горы Трамунтана (UNESCO), бухты Калья Монднаго и аренда яхт.</p>' },
+    madrid: { emoji:'🎨', name:'Мадрид', desc:'Прадо · Флорентийская кухня · Реал', price:'от 170 000 ₸/чел', color:'#6A1B9A',
+      info:'<h3>🎨 Мадрид (MAD)</h3><p style="margin:8px 0;color:#666">Музей Прадо и Рейна-Софии, стадион Бернабеу, рынок Сан-Мигель, тапас-бары. Летом очень жарко — лучше выезжать к морю.</p>' },
+  },
+  uae: {
+    dubai: { emoji:'🏙️', name:'Дубай', desc:'Бурдж-Халифа · шопинг · пляжи', price:'от 120 000 ₸/чел', color:'#FF6F00',
+      info:'<h3>🏙️ Дубай (DXB)</h3><p style="margin:8px 0;color:#666">Бурдж-Халифа, Пальм Джумейра, Atlantis, Dubai Mall, пляж JBR. В июле +40°C, но в ТЦ и отелях отличный кондиционер.</p><ul style="list-style:none;margin-top:12px"><li>🌡️ Июль: +38–42°C, море +31°C</li><li>✈️ Лёт: ~5–6 ч (прямой или 1 стыковка)</li><li>💰 Тур от ~1 000 000 ₸ на 2 чел</li><li>🛂 Виза не нужна (30 дней)</li></ul>' },
+    abudhabi: { emoji:'🕌', name:'Абу-Даби', desc:'Мечеть Шейха Зайеда · Ferrari World', price:'от 115 000 ₸/чел', color:'#0097A7',
+      info:'<h3>🕌 Абу-Даби (AUH)</h3><p style="margin:8px 0;color:#666">Столица ОАЭ с грандиозной Мечетью Шейха Зайеда, Ferrari World, Louvre Abu Dhabi и островом Яс с гоночной трассой F1.</p>' },
+    sharjah: { emoji:'🌆', name:'Шарджа', desc:'Культура · музеи · дешевле Дубая', price:'от 95 000 ₸/чел', color:'#2E7D32',
+      info:'<h3>🌆 Шарджа (SHJ)</h3><p style="margin:8px 0;color:#666">На 20–30% дешевле Дубая. Культурный эмират с музеями, рынками и семейными пляжами. Рядом с Дубаем — можно сочетать.</p>' },
   }
+};
 
-  // Load saved state
-  function loadProgress() {
-    const saved = localStorage.getItem('turkey_checklist');
-    if (saved) {
-      const state = JSON.parse(saved);
-      Object.entries(state).forEach(([id, checked]) => {
-        const el = document.getElementById(id);
-        if (el) el.checked = checked;
-      });
-    }
-    updateProgress();
+// ── TOUR PACKAGES DATA ───────────────────────────
+const tours = [
+  {
+    country:'turkey', region:'Анталья, Белек', tag:'🔥 ХИТ СЕЗОНА', tagClass:'',
+    emoji:'🏖️', color:'linear-gradient(135deg,#0097A7,#00BCD4)',
+    operator:'Pegas Touristik', title:'Турция All Inclusive — Белек 5★',
+    sub:'Анталья · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 5★','🍽️ Ultra AI','🏥 Страховка','📋 Визовая поддержка'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→AYT via Стамбул + обратно (Air Astana/TK)'},
+      {i:'🏨', t:'Rixos Premium Belek 5★ — 7 ночей'},
+      {i:'🍽️', t:'Питание: Ultra All Inclusive (14 ресторанов + бар)'},
+      {i:'🚖', t:'Трансфер аэропорт Анталья ↔ отель (shared)'},
+      {i:'🏥', t:'Страховка ВЗР €30 000 включена'},
+      {i:'📅', t:'Вылет: с 1 по 31 июля 2026'},
+    ],
+    oldPrice:'1 450 000 ₸', newPrice:'1 190 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://pegas.kz'
+  },
+  {
+    country:'turkey', region:'Сиде, Аланья', tag:'💸 ВЫГОДНО', tagClass:'',
+    emoji:'🌊', color:'linear-gradient(135deg,#FF6F00,#FF8F00)',
+    operator:'Coral Travel', title:'Турция — Сиде 4★ AI',
+    sub:'Сиде · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 4★','🍽️ All Inc.','🏥 Страховка','🎭 1 экскурсия'],
+    details:[
+      {i:'✈️', t:'Чартер ALA→AYT прямой + обратно (Pegas чартер)'},
+      {i:'🏨', t:'Crystal Sunset Luxury 4★ — 7 ночей'},
+      {i:'🍽️', t:'Питание: All Inclusive (5 ресторанов + бар)'},
+      {i:'🚖', t:'Трансфер аэропорт ↔ отель включён'},
+      {i:'🎭', t:'1 экскурсия на выбор (Памуккале или яхта)'},
+      {i:'🏥', t:'Страховка ВЗР €30 000'},
+    ],
+    oldPrice:'1 050 000 ₸', newPrice:'890 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://coral.kz'
+  },
+  {
+    country:'egypt', region:'Шарм-эль-Шейх', tag:'🌊 КРАСНОЕ МОРЕ', tagClass:'green',
+    emoji:'🤿', color:'linear-gradient(135deg,#E53935,#FF5252)',
+    operator:'TUI Kazakhstan', title:'Египет — Шарм-эль-Шейх 5★',
+    sub:'Шарм · 7 ночей · вылет из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 5★','🍽️ Ultra AI','🏥 Страховка','🛂 Виза'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→SSH через Дубай + обратно'},
+      {i:'🏨', t:'Rixos Sharm El Sheikh 5★ — 7 ночей'},
+      {i:'🍽️', t:'Ultra All Inclusive'},
+      {i:'🚖', t:'Трансфер аэропорт ↔ отель'},
+      {i:'🛂', t:'Визовый сбор $25 включён'},
+      {i:'🏥', t:'Страховка ВЗР €30 000'},
+    ],
+    oldPrice:'1 250 000 ₸', newPrice:'980 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://tui.kz'
+  },
+  {
+    country:'egypt', region:'Хургада', tag:'💸 БЮДЖЕТ', tagClass:'',
+    emoji:'🌅', color:'linear-gradient(135deg,#FF8F00,#FFA726)',
+    operator:'Anex Tour', title:'Египет — Хургада 4★ AI',
+    sub:'Хургада · 7 ночей · из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 4★','🍽️ All Inc.','🏥 Страховка'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→HRG через Дубай + обратно'},
+      {i:'🏨', t:'Steigenberger Aqua Magic 4★ — 7 ночей'},
+      {i:'🍽️', t:'All Inclusive'},
+      {i:'🚖', t:'Трансфер включён'},
+      {i:'🏥', t:'Страховка ВЗР включена'},
+    ],
+    oldPrice:'850 000 ₸', newPrice:'720 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://anextour.com'
+  },
+  {
+    country:'thailand', region:'Пхукет', tag:'🌺 ЭКЗОТИКА', tagClass:'purple',
+    emoji:'🏝️', color:'linear-gradient(135deg,#6A1B9A,#9C27B0)',
+    operator:'Join UP!', title:'Таиланд — Пхукет 5★',
+    sub:'Пхукет · 7 ночей · из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 5★','🍽️ BB','🏥 Страховка','🛂 e-Visa'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→HKT через Дубай/Бангкок + обратно'},
+      {i:'🏨', t:'Trisara Phuket 5★ — 7 ночей'},
+      {i:'🍽️', t:'Завтрак включён (BB)'},
+      {i:'🚖', t:'Трансфер аэропорт ↔ отель'},
+      {i:'🛂', t:'Оформление e-Visa включено'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 700 000 ₸', newPrice:'1 450 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://joinup.com'
+  },
+  {
+    country:'maldives', region:'Ари Атолл', tag:'💎 ЛЮКС', tagClass:'purple',
+    emoji:'🌊', color:'linear-gradient(135deg,#00838F,#00ACC1)',
+    operator:'Pegas Touristik Lux', title:'Мальдивы — Conrad Rangali 5★',
+    sub:'Ари Атолл · 7 ночей · из Алматы',
+    includes:['✈️ Перелёт','🚁 Гидроплан','🏨 Вилла Over Water','🍽️ FB+','🏥 Страховка','🤿 Снорклинг'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→MLE через Дубай + обратно'},
+      {i:'🚁', t:'Гидроплан MLE → Conrad Rangali Island'},
+      {i:'🏨', t:'Conrad Maldives 5★ вилла Over Water — 7 ночей'},
+      {i:'🍽️', t:'Полупансион + ужины в ресторанах'},
+      {i:'🤿', t:'Снорклинг и подводный ресторан Ithaa'},
+      {i:'🏥', t:'Страховка ВЗР €100 000'},
+    ],
+    oldPrice:'4 200 000 ₸', newPrice:'3 800 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://pegas.kz'
+  },
+  {
+    country:'uae', region:'Дубай, JBR', tag:'🏙️ СИТИ+ПЛЯЖ', tagClass:'',
+    emoji:'🌆', color:'linear-gradient(135deg,#1565C0,#1976D2)',
+    operator:'Coral Travel UAE', title:'Дубай — Palm Jumeirah 5★',
+    sub:'Дубай · 5 ночей · из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 5★','🍽️ BB','🏥 Страховка','🎡 Aquaventure'],
+    details:[
+      {i:'✈️', t:'Прямой рейс ALA→DXB + обратно (Air Astana)'},
+      {i:'🏨', t:'Atlantis The Palm 5★ — 5 ночей'},
+      {i:'🍽️', t:'Завтрак включён'},
+      {i:'🎡', t:'Aquaventure Waterpark Pass включён'},
+      {i:'🚖', t:'Трансфер VIP включён'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 350 000 ₸', newPrice:'1 150 000 ₸', per:'на 2 чел / 5 ночей',
+    link:'https://coral.kz'
+  },
+  {
+    country:'bali', region:'Семиньяк, Нуса-Дуа', tag:'🌿 ЭКЗОТИКА', tagClass:'green',
+    emoji:'🌺', color:'linear-gradient(135deg,#2E7D32,#43A047)',
+    operator:'TUI Bali', title:'Бали — Семиньяк 5★ Villa',
+    sub:'Бали · 7 ночей · из Алматы',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Villa 5★','🍽️ BB','🏥 Страховка','🛂 e-VOA'],
+    details:[
+      {i:'✈️', t:'Рейс ALA→DPS через Сингапур/КЛ + обратно'},
+      {i:'🏨', t:'W Retreat Seminyak 5★ вилла — 7 ночей'},
+      {i:'🍽️', t:'Завтрак на вилле включён'},
+      {i:'🚖', t:'Трансфер + экскурсия Убуд включены'},
+      {i:'🛂', t:'e-VOA $35 включена'},
+      {i:'🏥', t:'Страховка ВЗР €50 000'},
+    ],
+    oldPrice:'1 900 000 ₸', newPrice:'1 650 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://tui.kz'
+  },
+  {
+    country:'georgia', region:'Тбилиси + Батуми', tag:'✈️ БЛИЗКО', tagClass:'green',
+    emoji:'🍷', color:'linear-gradient(135deg,#E53935,#C62828)',
+    operator:'Kazakh Express', title:'Грузия — Тбилиси + Батуми',
+    sub:'4 ночи Тбилиси + 3 ночи Батуми',
+    includes:['✈️ Перелёт','🚖 Трансфер','🏨 Отель 4★','🍽️ BB','🏥 Страховка','🚌 Тур по стране'],
+    details:[
+      {i:'✈️', t:'Прямой рейс ALA→TBS + обратно (Air Astana)'},
+      {i:'🏨', t:'Rooms Hotel Tbilisi 4★ (4 н) + Sheraton Batumi (3 н)'},
+      {i:'🍽️', t:'Завтрак включён'},
+      {i:'🚌', t:'Трансфер Тбилиси → Батуми автобусом'},
+      {i:'🍷', t:'Дегустация вин в Кахетии включена'},
+      {i:'🏥', t:'Страховка ВЗР €30 000'},
+    ],
+    oldPrice:'580 000 ₸', newPrice:'490 000 ₸', per:'на 2 чел / 7 ночей',
+    link:'https://booking.com'
+  },
+];
+
+// ── RENDER DESTINATIONS ──────────────────────────
+let currentCountry = 'turkey';
+let currentRegion = 'antalya';
+
+function selectCountry(country, btn) {
+  currentCountry = country;
+  document.querySelectorAll('.dest-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.region-bar').forEach(r => r.classList.remove('visible'));
+  document.getElementById('region-' + country).classList.add('visible');
+  // activate first pill
+  const firstPill = document.querySelector('#region-' + country + ' .region-pill');
+  document.querySelectorAll('#region-' + country + ' .region-pill').forEach(p => p.classList.remove('active'));
+  if (firstPill) {
+    firstPill.classList.add('active');
+    currentRegion = firstPill.getAttribute('onclick').match(/'([^']+)'/)[1];
   }
+  renderDestCards();
+}
 
-  document.querySelectorAll('.checklist-item input[type=checkbox]').forEach(cb => {
-    cb.addEventListener('change', updateProgress);
+function selectRegion(region, btn, country) {
+  currentRegion = region;
+  document.querySelectorAll('#region-' + country + ' .region-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderDestCards();
+  showDestInfo(country, region);
+}
+
+function renderDestCards() {
+  const grid = document.getElementById('dest-cards-grid');
+  const countryData = destinations[currentCountry];
+  grid.innerHTML = Object.entries(countryData).map(([key, d]) => `
+    <div class="dest-card ${key === currentRegion ? 'selected' : ''}" onclick="selectRegionCard('${key}')">
+      <div class="dest-card-img" style="background:linear-gradient(135deg,${d.color}22,${d.color}44)">${d.emoji}</div>
+      <div class="dest-card-info">
+        <h4>${d.name}</h4>
+        <p>${d.desc}</p>
+        <div class="dest-price">${d.price}</div>
+      </div>
+    </div>
+  `).join('');
+  showDestInfo(currentCountry, currentRegion);
+}
+
+function selectRegionCard(region) {
+  currentRegion = region;
+  // update pills
+  const allPills = document.querySelectorAll('#region-' + currentCountry + ' .region-pill');
+  allPills.forEach(p => {
+    const r = p.getAttribute('onclick').match(/'([^']+)'/)[1];
+    p.classList.toggle('active', r === region);
   });
+  renderDestCards();
+}
 
-  loadProgress();
+function showDestInfo(country, region) {
+  const d = destinations[country] && destinations[country][region];
+  const panel = document.getElementById('dest-info');
+  const content = document.getElementById('dest-info-content');
+  if (d && d.info) {
+    panel.style.display = 'block';
+    content.innerHTML = d.info;
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+// ── RENDER TOURS ──────────────────────────────────
+function filterTours(country, btn) {
+  document.querySelectorAll('.tour-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTours(country);
+}
+
+function renderTours(filter) {
+  const grid = document.getElementById('tours-grid');
+  const filtered = filter === 'all' ? tours : tours.filter(t => t.country === filter);
+  grid.innerHTML = filtered.map(t => `
+    <div class="tour-card">
+      <div class="tour-card-banner" style="background:${t.color}">
+        <div class="banner-emoji">${t.emoji}</div>
+        <div class="tour-ribbon ${t.tagClass}">${t.tag}</div>
+        <div class="tour-operator">🏢 ${t.operator}</div>
+      </div>
+      <div class="tour-body">
+        <div class="tour-title">${t.title}</div>
+        <div class="tour-sub">📍 ${t.sub}</div>
+        <div class="tour-includes">
+          ${t.includes.map((inc,i) => `<span class="inc-tag ${i%3===1?'orange':i%3===2?'green':''}">${inc}</span>`).join('')}
+        </div>
+        <ul class="tour-details">
+          ${t.details.map(d => `<li><span>${d.i}</span><span>${d.t}</span></li>`).join('')}
+        </ul>
+        <div class="tour-footer">
+          <div class="tour-price-block">
+            <div class="old-price">${t.oldPrice}</div>
+            <div class="new-price">${t.newPrice}</div>
+            <div class="per">${t.per}</div>
+          </div>
+          <a href="${t.link}" target="_blank" style="text-decoration:none">
+            <button class="book-btn">Забронировать →</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── CHECKLIST ────────────────────────────────────
+function updateProgress() {
+  const all = document.querySelectorAll('.cl-item input[type=checkbox]');
+  const done = document.querySelectorAll('.cl-item input[type=checkbox]:checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-txt').textContent = done.length + ' / ' + all.length;
+  const state = {};
+  all.forEach(cb => state[cb.id] = cb.checked);
+  localStorage.setItem('vac_checklist_v2', JSON.stringify(state));
+}
+function loadChecklist() {
+  const saved = localStorage.getItem('vac_checklist_v2');
+  if (saved) {
+    const state = JSON.parse(saved);
+    Object.entries(state).forEach(([id, checked]) => {
+      const el = document.getElementById(id);
+      if (el) el.checked = checked;
+    });
+  }
+  updateProgress();
+}
+document.querySelectorAll('.cl-item input[type=checkbox]').forEach(cb => cb.addEventListener('change', updateProgress));
+
+// ── INIT ─────────────────────────────────────────
+renderDestCards();
+renderTours('all');
+loadChecklist();
 </script>
 
 </body>
